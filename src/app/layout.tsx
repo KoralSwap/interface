@@ -16,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Reactor Finance",
-  description: "Native DEX on Monad chain.",
+  title: "KoralSwap",
+  description: "Native DEX on Konet chain.",
 };
 
 export default function RootLayout({

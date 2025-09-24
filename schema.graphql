@@ -1,0 +1,7443 @@
+schema {
+  query: query_root
+  subscription: subscription_root
+}
+
+"""
+whether this query should be cached (Hasura Cloud only)
+"""
+directive @cached(
+  """
+  refresh the cache entry
+  """
+  refresh: Boolean! = false
+  """
+  measured in seconds
+  """
+  ttl: Int! = 60
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
+columns and relationships of "Bundle"
+"""
+type Bundle {
+  db_write_timestamp: timestamp
+  ethPrice: numeric!
+  id: String!
+}
+
+"""
+Boolean expression to filter rows from the table "Bundle". All fields are combined with a logical 'AND'.
+"""
+input Bundle_bool_exp {
+  _and: [Bundle_bool_exp!]
+  _not: Bundle_bool_exp
+  _or: [Bundle_bool_exp!]
+  db_write_timestamp: timestamp_comparison_exp
+  ethPrice: numeric_comparison_exp
+  id: String_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "Bundle".
+"""
+input Bundle_order_by {
+  db_write_timestamp: order_by
+  ethPrice: order_by
+  id: order_by
+}
+
+"""
+select columns of table "Bundle"
+"""
+enum Bundle_select_column {
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  ethPrice
+  """
+  column name
+  """
+  id
+}
+
+"""
+Streaming cursor of the table "Bundle"
+"""
+input Bundle_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Bundle_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Bundle_stream_cursor_value_input {
+  db_write_timestamp: timestamp
+  ethPrice: numeric
+  id: String
+}
+
+"""
+columns and relationships of "Burn"
+"""
+type Burn {
+  amount0: numeric
+  amount1: numeric
+  amountUSD: numeric
+  db_write_timestamp: timestamp
+  feeLiquidity: numeric
+  feeTo: String
+  id: String!
+  liquidity: numeric!
+  logIndex: numeric
+  needsComplete: Boolean!
+  """
+  An object relationship
+  """
+  pool: Pool
+  pool_id: String!
+  sender: String
+  timestamp: numeric!
+  to: String
+  """
+  An object relationship
+  """
+  transaction: Transaction
+  transaction_id: String!
+}
+
+"""
+order by aggregate values of table "Burn"
+"""
+input Burn_aggregate_order_by {
+  avg: Burn_avg_order_by
+  count: order_by
+  max: Burn_max_order_by
+  min: Burn_min_order_by
+  stddev: Burn_stddev_order_by
+  stddev_pop: Burn_stddev_pop_order_by
+  stddev_samp: Burn_stddev_samp_order_by
+  sum: Burn_sum_order_by
+  var_pop: Burn_var_pop_order_by
+  var_samp: Burn_var_samp_order_by
+  variance: Burn_variance_order_by
+}
+
+"""
+order by avg() on columns of table "Burn"
+"""
+input Burn_avg_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "Burn". All fields are combined with a logical 'AND'.
+"""
+input Burn_bool_exp {
+  _and: [Burn_bool_exp!]
+  _not: Burn_bool_exp
+  _or: [Burn_bool_exp!]
+  amount0: numeric_comparison_exp
+  amount1: numeric_comparison_exp
+  amountUSD: numeric_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  feeLiquidity: numeric_comparison_exp
+  feeTo: String_comparison_exp
+  id: String_comparison_exp
+  liquidity: numeric_comparison_exp
+  logIndex: numeric_comparison_exp
+  needsComplete: Boolean_comparison_exp
+  pool: Pool_bool_exp
+  pool_id: String_comparison_exp
+  sender: String_comparison_exp
+  timestamp: numeric_comparison_exp
+  to: String_comparison_exp
+  transaction: Transaction_bool_exp
+  transaction_id: String_comparison_exp
+}
+
+"""
+order by max() on columns of table "Burn"
+"""
+input Burn_max_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  feeLiquidity: order_by
+  feeTo: order_by
+  id: order_by
+  liquidity: order_by
+  logIndex: order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction_id: order_by
+}
+
+"""
+order by min() on columns of table "Burn"
+"""
+input Burn_min_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  feeLiquidity: order_by
+  feeTo: order_by
+  id: order_by
+  liquidity: order_by
+  logIndex: order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction_id: order_by
+}
+
+"""
+Ordering options when selecting data from "Burn".
+"""
+input Burn_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  feeLiquidity: order_by
+  feeTo: order_by
+  id: order_by
+  liquidity: order_by
+  logIndex: order_by
+  needsComplete: order_by
+  pool: Pool_order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction: Transaction_order_by
+  transaction_id: order_by
+}
+
+"""
+select columns of table "Burn"
+"""
+enum Burn_select_column {
+  """
+  column name
+  """
+  amount0
+  """
+  column name
+  """
+  amount1
+  """
+  column name
+  """
+  amountUSD
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  feeLiquidity
+  """
+  column name
+  """
+  feeTo
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  liquidity
+  """
+  column name
+  """
+  logIndex
+  """
+  column name
+  """
+  needsComplete
+  """
+  column name
+  """
+  pool_id
+  """
+  column name
+  """
+  sender
+  """
+  column name
+  """
+  timestamp
+  """
+  column name
+  """
+  to
+  """
+  column name
+  """
+  transaction_id
+}
+
+"""
+order by stddev() on columns of table "Burn"
+"""
+input Burn_stddev_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "Burn"
+"""
+input Burn_stddev_pop_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "Burn"
+"""
+input Burn_stddev_samp_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+Streaming cursor of the table "Burn"
+"""
+input Burn_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Burn_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Burn_stream_cursor_value_input {
+  amount0: numeric
+  amount1: numeric
+  amountUSD: numeric
+  db_write_timestamp: timestamp
+  feeLiquidity: numeric
+  feeTo: String
+  id: String
+  liquidity: numeric
+  logIndex: numeric
+  needsComplete: Boolean
+  pool_id: String
+  sender: String
+  timestamp: numeric
+  to: String
+  transaction_id: String
+}
+
+"""
+order by sum() on columns of table "Burn"
+"""
+input Burn_sum_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by var_pop() on columns of table "Burn"
+"""
+input Burn_var_pop_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by var_samp() on columns of table "Burn"
+"""
+input Burn_var_samp_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by variance() on columns of table "Burn"
+"""
+input Burn_variance_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+columns and relationships of "Gauge"
+"""
+type Gauge {
+  address: String!
+  bribeVotingReward: String!
+  chainId: Int!
+  db_write_timestamp: timestamp
+  """
+  An object relationship
+  """
+  depositPool: Pool
+  depositPool_id: String!
+  emission: numeric!
+  feeVotingReward: String!
+  fees0: numeric!
+  fees1: numeric!
+  id: String!
+  isAlive: Boolean!
+  rewardRate: numeric!
+  """
+  An object relationship
+  """
+  rewardToken: Token
+  rewardToken_id: String!
+  totalSupply: numeric!
+}
+
+"""
+columns and relationships of "GaugePosition"
+"""
+type GaugePosition {
+  """
+  An object relationship
+  """
+  account: User
+  account_id: String!
+  amountDeposited: numeric!
+  creationBlock: numeric!
+  creationTransaction: String!
+  db_write_timestamp: timestamp
+  """
+  An object relationship
+  """
+  gauge: Gauge
+  gauge_id: String!
+  id: String!
+}
+
+"""
+order by aggregate values of table "GaugePosition"
+"""
+input GaugePosition_aggregate_order_by {
+  avg: GaugePosition_avg_order_by
+  count: order_by
+  max: GaugePosition_max_order_by
+  min: GaugePosition_min_order_by
+  stddev: GaugePosition_stddev_order_by
+  stddev_pop: GaugePosition_stddev_pop_order_by
+  stddev_samp: GaugePosition_stddev_samp_order_by
+  sum: GaugePosition_sum_order_by
+  var_pop: GaugePosition_var_pop_order_by
+  var_samp: GaugePosition_var_samp_order_by
+  variance: GaugePosition_variance_order_by
+}
+
+"""
+order by avg() on columns of table "GaugePosition"
+"""
+input GaugePosition_avg_order_by {
+  amountDeposited: order_by
+  creationBlock: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "GaugePosition". All fields are combined with a logical 'AND'.
+"""
+input GaugePosition_bool_exp {
+  _and: [GaugePosition_bool_exp!]
+  _not: GaugePosition_bool_exp
+  _or: [GaugePosition_bool_exp!]
+  account: User_bool_exp
+  account_id: String_comparison_exp
+  amountDeposited: numeric_comparison_exp
+  creationBlock: numeric_comparison_exp
+  creationTransaction: String_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  gauge: Gauge_bool_exp
+  gauge_id: String_comparison_exp
+  id: String_comparison_exp
+}
+
+"""
+order by max() on columns of table "GaugePosition"
+"""
+input GaugePosition_max_order_by {
+  account_id: order_by
+  amountDeposited: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  gauge_id: order_by
+  id: order_by
+}
+
+"""
+order by min() on columns of table "GaugePosition"
+"""
+input GaugePosition_min_order_by {
+  account_id: order_by
+  amountDeposited: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  gauge_id: order_by
+  id: order_by
+}
+
+"""
+Ordering options when selecting data from "GaugePosition".
+"""
+input GaugePosition_order_by {
+  account: User_order_by
+  account_id: order_by
+  amountDeposited: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  gauge: Gauge_order_by
+  gauge_id: order_by
+  id: order_by
+}
+
+"""
+select columns of table "GaugePosition"
+"""
+enum GaugePosition_select_column {
+  """
+  column name
+  """
+  account_id
+  """
+  column name
+  """
+  amountDeposited
+  """
+  column name
+  """
+  creationBlock
+  """
+  column name
+  """
+  creationTransaction
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  gauge_id
+  """
+  column name
+  """
+  id
+}
+
+"""
+order by stddev() on columns of table "GaugePosition"
+"""
+input GaugePosition_stddev_order_by {
+  amountDeposited: order_by
+  creationBlock: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "GaugePosition"
+"""
+input GaugePosition_stddev_pop_order_by {
+  amountDeposited: order_by
+  creationBlock: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "GaugePosition"
+"""
+input GaugePosition_stddev_samp_order_by {
+  amountDeposited: order_by
+  creationBlock: order_by
+}
+
+"""
+Streaming cursor of the table "GaugePosition"
+"""
+input GaugePosition_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: GaugePosition_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input GaugePosition_stream_cursor_value_input {
+  account_id: String
+  amountDeposited: numeric
+  creationBlock: numeric
+  creationTransaction: String
+  db_write_timestamp: timestamp
+  gauge_id: String
+  id: String
+}
+
+"""
+order by sum() on columns of table "GaugePosition"
+"""
+input GaugePosition_sum_order_by {
+  amountDeposited: order_by
+  creationBlock: order_by
+}
+
+"""
+order by var_pop() on columns of table "GaugePosition"
+"""
+input GaugePosition_var_pop_order_by {
+  amountDeposited: order_by
+  creationBlock: order_by
+}
+
+"""
+order by var_samp() on columns of table "GaugePosition"
+"""
+input GaugePosition_var_samp_order_by {
+  amountDeposited: order_by
+  creationBlock: order_by
+}
+
+"""
+order by variance() on columns of table "GaugePosition"
+"""
+input GaugePosition_variance_order_by {
+  amountDeposited: order_by
+  creationBlock: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "Gauge". All fields are combined with a logical 'AND'.
+"""
+input Gauge_bool_exp {
+  _and: [Gauge_bool_exp!]
+  _not: Gauge_bool_exp
+  _or: [Gauge_bool_exp!]
+  address: String_comparison_exp
+  bribeVotingReward: String_comparison_exp
+  chainId: Int_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  depositPool: Pool_bool_exp
+  depositPool_id: String_comparison_exp
+  emission: numeric_comparison_exp
+  feeVotingReward: String_comparison_exp
+  fees0: numeric_comparison_exp
+  fees1: numeric_comparison_exp
+  id: String_comparison_exp
+  isAlive: Boolean_comparison_exp
+  rewardRate: numeric_comparison_exp
+  rewardToken: Token_bool_exp
+  rewardToken_id: String_comparison_exp
+  totalSupply: numeric_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "Gauge".
+"""
+input Gauge_order_by {
+  address: order_by
+  bribeVotingReward: order_by
+  chainId: order_by
+  db_write_timestamp: order_by
+  depositPool: Pool_order_by
+  depositPool_id: order_by
+  emission: order_by
+  feeVotingReward: order_by
+  fees0: order_by
+  fees1: order_by
+  id: order_by
+  isAlive: order_by
+  rewardRate: order_by
+  rewardToken: Token_order_by
+  rewardToken_id: order_by
+  totalSupply: order_by
+}
+
+"""
+select columns of table "Gauge"
+"""
+enum Gauge_select_column {
+  """
+  column name
+  """
+  address
+  """
+  column name
+  """
+  bribeVotingReward
+  """
+  column name
+  """
+  chainId
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  depositPool_id
+  """
+  column name
+  """
+  emission
+  """
+  column name
+  """
+  feeVotingReward
+  """
+  column name
+  """
+  fees0
+  """
+  column name
+  """
+  fees1
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  isAlive
+  """
+  column name
+  """
+  rewardRate
+  """
+  column name
+  """
+  rewardToken_id
+  """
+  column name
+  """
+  totalSupply
+}
+
+"""
+Streaming cursor of the table "Gauge"
+"""
+input Gauge_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Gauge_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Gauge_stream_cursor_value_input {
+  address: String
+  bribeVotingReward: String
+  chainId: Int
+  db_write_timestamp: timestamp
+  depositPool_id: String
+  emission: numeric
+  feeVotingReward: String
+  fees0: numeric
+  fees1: numeric
+  id: String
+  isAlive: Boolean
+  rewardRate: numeric
+  rewardToken_id: String
+  totalSupply: numeric
+}
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
+columns and relationships of "LiquidityManager"
+"""
+type LiquidityManager {
+  address: String!
+  db_write_timestamp: timestamp
+  id: String!
+  name: String!
+  """
+  An object relationship
+  """
+  pool: Pool
+  pool_id: String!
+  provider: lpmanagementprovider!
+}
+
+"""
+order by aggregate values of table "LiquidityManager"
+"""
+input LiquidityManager_aggregate_order_by {
+  count: order_by
+  max: LiquidityManager_max_order_by
+  min: LiquidityManager_min_order_by
+}
+
+"""
+Boolean expression to filter rows from the table "LiquidityManager". All fields are combined with a logical 'AND'.
+"""
+input LiquidityManager_bool_exp {
+  _and: [LiquidityManager_bool_exp!]
+  _not: LiquidityManager_bool_exp
+  _or: [LiquidityManager_bool_exp!]
+  address: String_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  id: String_comparison_exp
+  name: String_comparison_exp
+  pool: Pool_bool_exp
+  pool_id: String_comparison_exp
+  provider: lpmanagementprovider_comparison_exp
+}
+
+"""
+order by max() on columns of table "LiquidityManager"
+"""
+input LiquidityManager_max_order_by {
+  address: order_by
+  db_write_timestamp: order_by
+  id: order_by
+  name: order_by
+  pool_id: order_by
+  provider: order_by
+}
+
+"""
+order by min() on columns of table "LiquidityManager"
+"""
+input LiquidityManager_min_order_by {
+  address: order_by
+  db_write_timestamp: order_by
+  id: order_by
+  name: order_by
+  pool_id: order_by
+  provider: order_by
+}
+
+"""
+Ordering options when selecting data from "LiquidityManager".
+"""
+input LiquidityManager_order_by {
+  address: order_by
+  db_write_timestamp: order_by
+  id: order_by
+  name: order_by
+  pool: Pool_order_by
+  pool_id: order_by
+  provider: order_by
+}
+
+"""
+select columns of table "LiquidityManager"
+"""
+enum LiquidityManager_select_column {
+  """
+  column name
+  """
+  address
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  name
+  """
+  column name
+  """
+  pool_id
+  """
+  column name
+  """
+  provider
+}
+
+"""
+Streaming cursor of the table "LiquidityManager"
+"""
+input LiquidityManager_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: LiquidityManager_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input LiquidityManager_stream_cursor_value_input {
+  address: String
+  db_write_timestamp: timestamp
+  id: String
+  name: String
+  pool_id: String
+  provider: lpmanagementprovider
+}
+
+"""
+columns and relationships of "LiquidityPosition"
+"""
+type LiquidityPosition {
+  """
+  An object relationship
+  """
+  account: User
+  account_id: String!
+  clPositionTokenId: numeric
+  creationBlock: numeric!
+  creationTransaction: String!
+  db_write_timestamp: timestamp
+  id: String!
+  """
+  An object relationship
+  """
+  pool: Pool
+  pool_id: String!
+  position: numeric!
+}
+
+"""
+order by aggregate values of table "LiquidityPosition"
+"""
+input LiquidityPosition_aggregate_order_by {
+  avg: LiquidityPosition_avg_order_by
+  count: order_by
+  max: LiquidityPosition_max_order_by
+  min: LiquidityPosition_min_order_by
+  stddev: LiquidityPosition_stddev_order_by
+  stddev_pop: LiquidityPosition_stddev_pop_order_by
+  stddev_samp: LiquidityPosition_stddev_samp_order_by
+  sum: LiquidityPosition_sum_order_by
+  var_pop: LiquidityPosition_var_pop_order_by
+  var_samp: LiquidityPosition_var_samp_order_by
+  variance: LiquidityPosition_variance_order_by
+}
+
+"""
+order by avg() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_avg_order_by {
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  position: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "LiquidityPosition". All fields are combined with a logical 'AND'.
+"""
+input LiquidityPosition_bool_exp {
+  _and: [LiquidityPosition_bool_exp!]
+  _not: LiquidityPosition_bool_exp
+  _or: [LiquidityPosition_bool_exp!]
+  account: User_bool_exp
+  account_id: String_comparison_exp
+  clPositionTokenId: numeric_comparison_exp
+  creationBlock: numeric_comparison_exp
+  creationTransaction: String_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  id: String_comparison_exp
+  pool: Pool_bool_exp
+  pool_id: String_comparison_exp
+  position: numeric_comparison_exp
+}
+
+"""
+order by max() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_max_order_by {
+  account_id: order_by
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  id: order_by
+  pool_id: order_by
+  position: order_by
+}
+
+"""
+order by min() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_min_order_by {
+  account_id: order_by
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  id: order_by
+  pool_id: order_by
+  position: order_by
+}
+
+"""
+Ordering options when selecting data from "LiquidityPosition".
+"""
+input LiquidityPosition_order_by {
+  account: User_order_by
+  account_id: order_by
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  id: order_by
+  pool: Pool_order_by
+  pool_id: order_by
+  position: order_by
+}
+
+"""
+select columns of table "LiquidityPosition"
+"""
+enum LiquidityPosition_select_column {
+  """
+  column name
+  """
+  account_id
+  """
+  column name
+  """
+  clPositionTokenId
+  """
+  column name
+  """
+  creationBlock
+  """
+  column name
+  """
+  creationTransaction
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  pool_id
+  """
+  column name
+  """
+  position
+}
+
+"""
+order by stddev() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_stddev_order_by {
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  position: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_stddev_pop_order_by {
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  position: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_stddev_samp_order_by {
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  position: order_by
+}
+
+"""
+Streaming cursor of the table "LiquidityPosition"
+"""
+input LiquidityPosition_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: LiquidityPosition_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input LiquidityPosition_stream_cursor_value_input {
+  account_id: String
+  clPositionTokenId: numeric
+  creationBlock: numeric
+  creationTransaction: String
+  db_write_timestamp: timestamp
+  id: String
+  pool_id: String
+  position: numeric
+}
+
+"""
+order by sum() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_sum_order_by {
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  position: order_by
+}
+
+"""
+order by var_pop() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_var_pop_order_by {
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  position: order_by
+}
+
+"""
+order by var_samp() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_var_samp_order_by {
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  position: order_by
+}
+
+"""
+order by variance() on columns of table "LiquidityPosition"
+"""
+input LiquidityPosition_variance_order_by {
+  clPositionTokenId: order_by
+  creationBlock: order_by
+  position: order_by
+}
+
+"""
+columns and relationships of "LockPosition"
+"""
+type LockPosition {
+  chainId: Int!
+  creationBlock: numeric!
+  creationTransaction: String!
+  db_write_timestamp: timestamp
+  freeRewardManager: String
+  id: String!
+  lockId: numeric!
+  lockRewardManager: String
+  lockType: locktype!
+  """
+  An object relationship
+  """
+  owner: User
+  owner_id: String!
+  permanent: Boolean!
+  position: numeric!
+  totalVoteWeightGiven: numeric!
+  unlockTime: numeric!
+}
+
+"""
+order by aggregate values of table "LockPosition"
+"""
+input LockPosition_aggregate_order_by {
+  avg: LockPosition_avg_order_by
+  count: order_by
+  max: LockPosition_max_order_by
+  min: LockPosition_min_order_by
+  stddev: LockPosition_stddev_order_by
+  stddev_pop: LockPosition_stddev_pop_order_by
+  stddev_samp: LockPosition_stddev_samp_order_by
+  sum: LockPosition_sum_order_by
+  var_pop: LockPosition_var_pop_order_by
+  var_samp: LockPosition_var_samp_order_by
+  variance: LockPosition_variance_order_by
+}
+
+"""
+order by avg() on columns of table "LockPosition"
+"""
+input LockPosition_avg_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  lockId: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "LockPosition". All fields are combined with a logical 'AND'.
+"""
+input LockPosition_bool_exp {
+  _and: [LockPosition_bool_exp!]
+  _not: LockPosition_bool_exp
+  _or: [LockPosition_bool_exp!]
+  chainId: Int_comparison_exp
+  creationBlock: numeric_comparison_exp
+  creationTransaction: String_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  freeRewardManager: String_comparison_exp
+  id: String_comparison_exp
+  lockId: numeric_comparison_exp
+  lockRewardManager: String_comparison_exp
+  lockType: locktype_comparison_exp
+  owner: User_bool_exp
+  owner_id: String_comparison_exp
+  permanent: Boolean_comparison_exp
+  position: numeric_comparison_exp
+  totalVoteWeightGiven: numeric_comparison_exp
+  unlockTime: numeric_comparison_exp
+}
+
+"""
+order by max() on columns of table "LockPosition"
+"""
+input LockPosition_max_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  freeRewardManager: order_by
+  id: order_by
+  lockId: order_by
+  lockRewardManager: order_by
+  lockType: order_by
+  owner_id: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+order by min() on columns of table "LockPosition"
+"""
+input LockPosition_min_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  freeRewardManager: order_by
+  id: order_by
+  lockId: order_by
+  lockRewardManager: order_by
+  lockType: order_by
+  owner_id: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+Ordering options when selecting data from "LockPosition".
+"""
+input LockPosition_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  creationTransaction: order_by
+  db_write_timestamp: order_by
+  freeRewardManager: order_by
+  id: order_by
+  lockId: order_by
+  lockRewardManager: order_by
+  lockType: order_by
+  owner: User_order_by
+  owner_id: order_by
+  permanent: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+select columns of table "LockPosition"
+"""
+enum LockPosition_select_column {
+  """
+  column name
+  """
+  chainId
+  """
+  column name
+  """
+  creationBlock
+  """
+  column name
+  """
+  creationTransaction
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  freeRewardManager
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  lockId
+  """
+  column name
+  """
+  lockRewardManager
+  """
+  column name
+  """
+  lockType
+  """
+  column name
+  """
+  owner_id
+  """
+  column name
+  """
+  permanent
+  """
+  column name
+  """
+  position
+  """
+  column name
+  """
+  totalVoteWeightGiven
+  """
+  column name
+  """
+  unlockTime
+}
+
+"""
+order by stddev() on columns of table "LockPosition"
+"""
+input LockPosition_stddev_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  lockId: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "LockPosition"
+"""
+input LockPosition_stddev_pop_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  lockId: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "LockPosition"
+"""
+input LockPosition_stddev_samp_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  lockId: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+Streaming cursor of the table "LockPosition"
+"""
+input LockPosition_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: LockPosition_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input LockPosition_stream_cursor_value_input {
+  chainId: Int
+  creationBlock: numeric
+  creationTransaction: String
+  db_write_timestamp: timestamp
+  freeRewardManager: String
+  id: String
+  lockId: numeric
+  lockRewardManager: String
+  lockType: locktype
+  owner_id: String
+  permanent: Boolean
+  position: numeric
+  totalVoteWeightGiven: numeric
+  unlockTime: numeric
+}
+
+"""
+order by sum() on columns of table "LockPosition"
+"""
+input LockPosition_sum_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  lockId: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+order by var_pop() on columns of table "LockPosition"
+"""
+input LockPosition_var_pop_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  lockId: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+order by var_samp() on columns of table "LockPosition"
+"""
+input LockPosition_var_samp_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  lockId: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+order by variance() on columns of table "LockPosition"
+"""
+input LockPosition_variance_order_by {
+  chainId: order_by
+  creationBlock: order_by
+  lockId: order_by
+  position: order_by
+  totalVoteWeightGiven: order_by
+  unlockTime: order_by
+}
+
+"""
+columns and relationships of "Mint"
+"""
+type Mint {
+  amount0: numeric
+  amount1: numeric
+  amountUSD: numeric
+  db_write_timestamp: timestamp
+  feeLiquidity: numeric
+  feeTo: String
+  id: String!
+  liquidity: numeric!
+  logIndex: numeric
+  """
+  An object relationship
+  """
+  pool: Pool
+  pool_id: String!
+  sender: String
+  timestamp: numeric!
+  to: String!
+  """
+  An object relationship
+  """
+  transaction: Transaction
+  transaction_id: String!
+}
+
+"""
+order by aggregate values of table "Mint"
+"""
+input Mint_aggregate_order_by {
+  avg: Mint_avg_order_by
+  count: order_by
+  max: Mint_max_order_by
+  min: Mint_min_order_by
+  stddev: Mint_stddev_order_by
+  stddev_pop: Mint_stddev_pop_order_by
+  stddev_samp: Mint_stddev_samp_order_by
+  sum: Mint_sum_order_by
+  var_pop: Mint_var_pop_order_by
+  var_samp: Mint_var_samp_order_by
+  variance: Mint_variance_order_by
+}
+
+"""
+order by avg() on columns of table "Mint"
+"""
+input Mint_avg_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "Mint". All fields are combined with a logical 'AND'.
+"""
+input Mint_bool_exp {
+  _and: [Mint_bool_exp!]
+  _not: Mint_bool_exp
+  _or: [Mint_bool_exp!]
+  amount0: numeric_comparison_exp
+  amount1: numeric_comparison_exp
+  amountUSD: numeric_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  feeLiquidity: numeric_comparison_exp
+  feeTo: String_comparison_exp
+  id: String_comparison_exp
+  liquidity: numeric_comparison_exp
+  logIndex: numeric_comparison_exp
+  pool: Pool_bool_exp
+  pool_id: String_comparison_exp
+  sender: String_comparison_exp
+  timestamp: numeric_comparison_exp
+  to: String_comparison_exp
+  transaction: Transaction_bool_exp
+  transaction_id: String_comparison_exp
+}
+
+"""
+order by max() on columns of table "Mint"
+"""
+input Mint_max_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  feeLiquidity: order_by
+  feeTo: order_by
+  id: order_by
+  liquidity: order_by
+  logIndex: order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction_id: order_by
+}
+
+"""
+order by min() on columns of table "Mint"
+"""
+input Mint_min_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  feeLiquidity: order_by
+  feeTo: order_by
+  id: order_by
+  liquidity: order_by
+  logIndex: order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction_id: order_by
+}
+
+"""
+Ordering options when selecting data from "Mint".
+"""
+input Mint_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  feeLiquidity: order_by
+  feeTo: order_by
+  id: order_by
+  liquidity: order_by
+  logIndex: order_by
+  pool: Pool_order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction: Transaction_order_by
+  transaction_id: order_by
+}
+
+"""
+select columns of table "Mint"
+"""
+enum Mint_select_column {
+  """
+  column name
+  """
+  amount0
+  """
+  column name
+  """
+  amount1
+  """
+  column name
+  """
+  amountUSD
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  feeLiquidity
+  """
+  column name
+  """
+  feeTo
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  liquidity
+  """
+  column name
+  """
+  logIndex
+  """
+  column name
+  """
+  pool_id
+  """
+  column name
+  """
+  sender
+  """
+  column name
+  """
+  timestamp
+  """
+  column name
+  """
+  to
+  """
+  column name
+  """
+  transaction_id
+}
+
+"""
+order by stddev() on columns of table "Mint"
+"""
+input Mint_stddev_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "Mint"
+"""
+input Mint_stddev_pop_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "Mint"
+"""
+input Mint_stddev_samp_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+Streaming cursor of the table "Mint"
+"""
+input Mint_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Mint_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Mint_stream_cursor_value_input {
+  amount0: numeric
+  amount1: numeric
+  amountUSD: numeric
+  db_write_timestamp: timestamp
+  feeLiquidity: numeric
+  feeTo: String
+  id: String
+  liquidity: numeric
+  logIndex: numeric
+  pool_id: String
+  sender: String
+  timestamp: numeric
+  to: String
+  transaction_id: String
+}
+
+"""
+order by sum() on columns of table "Mint"
+"""
+input Mint_sum_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by var_pop() on columns of table "Mint"
+"""
+input Mint_var_pop_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by var_samp() on columns of table "Mint"
+"""
+input Mint_var_samp_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by variance() on columns of table "Mint"
+"""
+input Mint_variance_order_by {
+  amount0: order_by
+  amount1: order_by
+  amountUSD: order_by
+  feeLiquidity: order_by
+  liquidity: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+columns and relationships of "NFPMLPMintTracker"
+"""
+type NFPMLPMintTracker {
+  db_write_timestamp: timestamp
+  id: String!
+  """
+  An object relationship
+  """
+  pool: Pool
+  pool_id: String!
+  transaction: String!
+}
+
+"""
+Boolean expression to filter rows from the table "NFPMLPMintTracker". All fields are combined with a logical 'AND'.
+"""
+input NFPMLPMintTracker_bool_exp {
+  _and: [NFPMLPMintTracker_bool_exp!]
+  _not: NFPMLPMintTracker_bool_exp
+  _or: [NFPMLPMintTracker_bool_exp!]
+  db_write_timestamp: timestamp_comparison_exp
+  id: String_comparison_exp
+  pool: Pool_bool_exp
+  pool_id: String_comparison_exp
+  transaction: String_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "NFPMLPMintTracker".
+"""
+input NFPMLPMintTracker_order_by {
+  db_write_timestamp: order_by
+  id: order_by
+  pool: Pool_order_by
+  pool_id: order_by
+  transaction: order_by
+}
+
+"""
+select columns of table "NFPMLPMintTracker"
+"""
+enum NFPMLPMintTracker_select_column {
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  pool_id
+  """
+  column name
+  """
+  transaction
+}
+
+"""
+Streaming cursor of the table "NFPMLPMintTracker"
+"""
+input NFPMLPMintTracker_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: NFPMLPMintTracker_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input NFPMLPMintTracker_stream_cursor_value_input {
+  db_write_timestamp: timestamp
+  id: String
+  pool_id: String
+  transaction: String
+}
+
+"""
+columns and relationships of "OverallDayData"
+"""
+type OverallDayData {
+  chainId: Int!
+  date: Int!
+  db_write_timestamp: timestamp
+  feesUSD: numeric!
+  id: String!
+  liquidityETH: numeric!
+  liquidityUSD: numeric!
+  totalTradeVolumeETH: numeric!
+  totalTradeVolumeUSD: numeric!
+  txCount: numeric!
+  volumeETH: numeric!
+  volumeUSD: numeric!
+}
+
+"""
+Boolean expression to filter rows from the table "OverallDayData". All fields are combined with a logical 'AND'.
+"""
+input OverallDayData_bool_exp {
+  _and: [OverallDayData_bool_exp!]
+  _not: OverallDayData_bool_exp
+  _or: [OverallDayData_bool_exp!]
+  chainId: Int_comparison_exp
+  date: Int_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  feesUSD: numeric_comparison_exp
+  id: String_comparison_exp
+  liquidityETH: numeric_comparison_exp
+  liquidityUSD: numeric_comparison_exp
+  totalTradeVolumeETH: numeric_comparison_exp
+  totalTradeVolumeUSD: numeric_comparison_exp
+  txCount: numeric_comparison_exp
+  volumeETH: numeric_comparison_exp
+  volumeUSD: numeric_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "OverallDayData".
+"""
+input OverallDayData_order_by {
+  chainId: order_by
+  date: order_by
+  db_write_timestamp: order_by
+  feesUSD: order_by
+  id: order_by
+  liquidityETH: order_by
+  liquidityUSD: order_by
+  totalTradeVolumeETH: order_by
+  totalTradeVolumeUSD: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeUSD: order_by
+}
+
+"""
+select columns of table "OverallDayData"
+"""
+enum OverallDayData_select_column {
+  """
+  column name
+  """
+  chainId
+  """
+  column name
+  """
+  date
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  feesUSD
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  liquidityETH
+  """
+  column name
+  """
+  liquidityUSD
+  """
+  column name
+  """
+  totalTradeVolumeETH
+  """
+  column name
+  """
+  totalTradeVolumeUSD
+  """
+  column name
+  """
+  txCount
+  """
+  column name
+  """
+  volumeETH
+  """
+  column name
+  """
+  volumeUSD
+}
+
+"""
+Streaming cursor of the table "OverallDayData"
+"""
+input OverallDayData_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: OverallDayData_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input OverallDayData_stream_cursor_value_input {
+  chainId: Int
+  date: Int
+  db_write_timestamp: timestamp
+  feesUSD: numeric
+  id: String
+  liquidityETH: numeric
+  liquidityUSD: numeric
+  totalTradeVolumeETH: numeric
+  totalTradeVolumeUSD: numeric
+  txCount: numeric
+  volumeETH: numeric
+  volumeUSD: numeric
+}
+
+"""
+columns and relationships of "Pool"
+"""
+type Pool {
+  address: String!
+  """
+  An array relationship
+  """
+  burns(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Burn_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Burn_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Burn_bool_exp
+  ): [Burn!]!
+  chainId: Int!
+  createdAtBlockNumber: numeric!
+  createdAtTimestamp: numeric!
+  db_write_timestamp: timestamp
+  """
+  An object relationship
+  """
+  gauge: Gauge
+  gaugeFees0CurrentEpoch: numeric!
+  gaugeFees1CurrentEpoch: numeric!
+  gaugeFeesUSD: numeric!
+  gauge_id: String
+  id: String!
+  """
+  An array relationship
+  """
+  liquidityManager(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LiquidityManager_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LiquidityManager_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LiquidityManager_bool_exp
+  ): [LiquidityManager!]!
+  """
+  An array relationship
+  """
+  mints(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Mint_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Mint_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Mint_bool_exp
+  ): [Mint!]!
+  name: String!
+  """
+  An array relationship
+  """
+  poolHourData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [PoolHourData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [PoolHourData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: PoolHourData_bool_exp
+  ): [PoolHourData!]!
+  poolType: pooltype!
+  reserve0: numeric!
+  reserve1: numeric!
+  reserveETH: numeric!
+  reserveUSD: numeric!
+  """
+  An array relationship
+  """
+  swaps(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Swap_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Swap_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Swap_bool_exp
+  ): [Swap!]!
+  tickSpacing: numeric
+  """
+  An object relationship
+  """
+  token0: Token
+  token0Price: numeric!
+  token0_id: String!
+  """
+  An object relationship
+  """
+  token1: Token
+  token1Price: numeric!
+  token1_id: String!
+  totalBribesUSD: numeric!
+  totalEmissions: numeric!
+  totalEmissionsUSD: numeric!
+  totalFees0: numeric!
+  totalFees1: numeric!
+  totalFeesUSD: numeric!
+  totalSupply: numeric!
+  totalVotes: numeric!
+  txCount: numeric!
+  volumeETH: numeric!
+  volumeToken0: numeric!
+  volumeToken1: numeric!
+  volumeUSD: numeric!
+}
+
+"""
+columns and relationships of "PoolDayData"
+"""
+type PoolDayData {
+  dailyTxns: numeric!
+  dailyVolumeETH: numeric!
+  dailyVolumeToken0: numeric!
+  dailyVolumeToken1: numeric!
+  dailyVolumeUSD: numeric!
+  date: Int!
+  db_write_timestamp: timestamp
+  id: String!
+  """
+  An object relationship
+  """
+  pool: Pool
+  pool_id: String!
+  reserve0: numeric!
+  reserve1: numeric!
+  reserveETH: numeric!
+  reserveUSD: numeric!
+  totalSupply: numeric!
+}
+
+"""
+Boolean expression to filter rows from the table "PoolDayData". All fields are combined with a logical 'AND'.
+"""
+input PoolDayData_bool_exp {
+  _and: [PoolDayData_bool_exp!]
+  _not: PoolDayData_bool_exp
+  _or: [PoolDayData_bool_exp!]
+  dailyTxns: numeric_comparison_exp
+  dailyVolumeETH: numeric_comparison_exp
+  dailyVolumeToken0: numeric_comparison_exp
+  dailyVolumeToken1: numeric_comparison_exp
+  dailyVolumeUSD: numeric_comparison_exp
+  date: Int_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  id: String_comparison_exp
+  pool: Pool_bool_exp
+  pool_id: String_comparison_exp
+  reserve0: numeric_comparison_exp
+  reserve1: numeric_comparison_exp
+  reserveETH: numeric_comparison_exp
+  reserveUSD: numeric_comparison_exp
+  totalSupply: numeric_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "PoolDayData".
+"""
+input PoolDayData_order_by {
+  dailyTxns: order_by
+  dailyVolumeETH: order_by
+  dailyVolumeToken0: order_by
+  dailyVolumeToken1: order_by
+  dailyVolumeUSD: order_by
+  date: order_by
+  db_write_timestamp: order_by
+  id: order_by
+  pool: Pool_order_by
+  pool_id: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+select columns of table "PoolDayData"
+"""
+enum PoolDayData_select_column {
+  """
+  column name
+  """
+  dailyTxns
+  """
+  column name
+  """
+  dailyVolumeETH
+  """
+  column name
+  """
+  dailyVolumeToken0
+  """
+  column name
+  """
+  dailyVolumeToken1
+  """
+  column name
+  """
+  dailyVolumeUSD
+  """
+  column name
+  """
+  date
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  pool_id
+  """
+  column name
+  """
+  reserve0
+  """
+  column name
+  """
+  reserve1
+  """
+  column name
+  """
+  reserveETH
+  """
+  column name
+  """
+  reserveUSD
+  """
+  column name
+  """
+  totalSupply
+}
+
+"""
+Streaming cursor of the table "PoolDayData"
+"""
+input PoolDayData_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: PoolDayData_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input PoolDayData_stream_cursor_value_input {
+  dailyTxns: numeric
+  dailyVolumeETH: numeric
+  dailyVolumeToken0: numeric
+  dailyVolumeToken1: numeric
+  dailyVolumeUSD: numeric
+  date: Int
+  db_write_timestamp: timestamp
+  id: String
+  pool_id: String
+  reserve0: numeric
+  reserve1: numeric
+  reserveETH: numeric
+  reserveUSD: numeric
+  totalSupply: numeric
+}
+
+"""
+columns and relationships of "PoolHourData"
+"""
+type PoolHourData {
+  db_write_timestamp: timestamp
+  hourStartUnix: Int!
+  hourlyTxns: numeric!
+  hourlyVolumeETH: numeric!
+  hourlyVolumeToken0: numeric!
+  hourlyVolumeToken1: numeric!
+  hourlyVolumeUSD: numeric!
+  id: String!
+  """
+  An object relationship
+  """
+  pool: Pool
+  pool_id: String!
+  reserve0: numeric!
+  reserve1: numeric!
+  reserveETH: numeric!
+  reserveUSD: numeric!
+  totalSupply: numeric!
+}
+
+"""
+order by aggregate values of table "PoolHourData"
+"""
+input PoolHourData_aggregate_order_by {
+  avg: PoolHourData_avg_order_by
+  count: order_by
+  max: PoolHourData_max_order_by
+  min: PoolHourData_min_order_by
+  stddev: PoolHourData_stddev_order_by
+  stddev_pop: PoolHourData_stddev_pop_order_by
+  stddev_samp: PoolHourData_stddev_samp_order_by
+  sum: PoolHourData_sum_order_by
+  var_pop: PoolHourData_var_pop_order_by
+  var_samp: PoolHourData_var_samp_order_by
+  variance: PoolHourData_variance_order_by
+}
+
+"""
+order by avg() on columns of table "PoolHourData"
+"""
+input PoolHourData_avg_order_by {
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "PoolHourData". All fields are combined with a logical 'AND'.
+"""
+input PoolHourData_bool_exp {
+  _and: [PoolHourData_bool_exp!]
+  _not: PoolHourData_bool_exp
+  _or: [PoolHourData_bool_exp!]
+  db_write_timestamp: timestamp_comparison_exp
+  hourStartUnix: Int_comparison_exp
+  hourlyTxns: numeric_comparison_exp
+  hourlyVolumeETH: numeric_comparison_exp
+  hourlyVolumeToken0: numeric_comparison_exp
+  hourlyVolumeToken1: numeric_comparison_exp
+  hourlyVolumeUSD: numeric_comparison_exp
+  id: String_comparison_exp
+  pool: Pool_bool_exp
+  pool_id: String_comparison_exp
+  reserve0: numeric_comparison_exp
+  reserve1: numeric_comparison_exp
+  reserveETH: numeric_comparison_exp
+  reserveUSD: numeric_comparison_exp
+  totalSupply: numeric_comparison_exp
+}
+
+"""
+order by max() on columns of table "PoolHourData"
+"""
+input PoolHourData_max_order_by {
+  db_write_timestamp: order_by
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  id: order_by
+  pool_id: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+order by min() on columns of table "PoolHourData"
+"""
+input PoolHourData_min_order_by {
+  db_write_timestamp: order_by
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  id: order_by
+  pool_id: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+Ordering options when selecting data from "PoolHourData".
+"""
+input PoolHourData_order_by {
+  db_write_timestamp: order_by
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  id: order_by
+  pool: Pool_order_by
+  pool_id: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+select columns of table "PoolHourData"
+"""
+enum PoolHourData_select_column {
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  hourStartUnix
+  """
+  column name
+  """
+  hourlyTxns
+  """
+  column name
+  """
+  hourlyVolumeETH
+  """
+  column name
+  """
+  hourlyVolumeToken0
+  """
+  column name
+  """
+  hourlyVolumeToken1
+  """
+  column name
+  """
+  hourlyVolumeUSD
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  pool_id
+  """
+  column name
+  """
+  reserve0
+  """
+  column name
+  """
+  reserve1
+  """
+  column name
+  """
+  reserveETH
+  """
+  column name
+  """
+  reserveUSD
+  """
+  column name
+  """
+  totalSupply
+}
+
+"""
+order by stddev() on columns of table "PoolHourData"
+"""
+input PoolHourData_stddev_order_by {
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "PoolHourData"
+"""
+input PoolHourData_stddev_pop_order_by {
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "PoolHourData"
+"""
+input PoolHourData_stddev_samp_order_by {
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+Streaming cursor of the table "PoolHourData"
+"""
+input PoolHourData_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: PoolHourData_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input PoolHourData_stream_cursor_value_input {
+  db_write_timestamp: timestamp
+  hourStartUnix: Int
+  hourlyTxns: numeric
+  hourlyVolumeETH: numeric
+  hourlyVolumeToken0: numeric
+  hourlyVolumeToken1: numeric
+  hourlyVolumeUSD: numeric
+  id: String
+  pool_id: String
+  reserve0: numeric
+  reserve1: numeric
+  reserveETH: numeric
+  reserveUSD: numeric
+  totalSupply: numeric
+}
+
+"""
+order by sum() on columns of table "PoolHourData"
+"""
+input PoolHourData_sum_order_by {
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+order by var_pop() on columns of table "PoolHourData"
+"""
+input PoolHourData_var_pop_order_by {
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+order by var_samp() on columns of table "PoolHourData"
+"""
+input PoolHourData_var_samp_order_by {
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+order by variance() on columns of table "PoolHourData"
+"""
+input PoolHourData_variance_order_by {
+  hourStartUnix: order_by
+  hourlyTxns: order_by
+  hourlyVolumeETH: order_by
+  hourlyVolumeToken0: order_by
+  hourlyVolumeToken1: order_by
+  hourlyVolumeUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  totalSupply: order_by
+}
+
+"""
+order by aggregate values of table "Pool"
+"""
+input Pool_aggregate_order_by {
+  avg: Pool_avg_order_by
+  count: order_by
+  max: Pool_max_order_by
+  min: Pool_min_order_by
+  stddev: Pool_stddev_order_by
+  stddev_pop: Pool_stddev_pop_order_by
+  stddev_samp: Pool_stddev_samp_order_by
+  sum: Pool_sum_order_by
+  var_pop: Pool_var_pop_order_by
+  var_samp: Pool_var_samp_order_by
+  variance: Pool_variance_order_by
+}
+
+"""
+order by avg() on columns of table "Pool"
+"""
+input Pool_avg_order_by {
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token1Price: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "Pool". All fields are combined with a logical 'AND'.
+"""
+input Pool_bool_exp {
+  _and: [Pool_bool_exp!]
+  _not: Pool_bool_exp
+  _or: [Pool_bool_exp!]
+  address: String_comparison_exp
+  burns: Burn_bool_exp
+  chainId: Int_comparison_exp
+  createdAtBlockNumber: numeric_comparison_exp
+  createdAtTimestamp: numeric_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  gauge: Gauge_bool_exp
+  gaugeFees0CurrentEpoch: numeric_comparison_exp
+  gaugeFees1CurrentEpoch: numeric_comparison_exp
+  gaugeFeesUSD: numeric_comparison_exp
+  gauge_id: String_comparison_exp
+  id: String_comparison_exp
+  liquidityManager: LiquidityManager_bool_exp
+  mints: Mint_bool_exp
+  name: String_comparison_exp
+  poolHourData: PoolHourData_bool_exp
+  poolType: pooltype_comparison_exp
+  reserve0: numeric_comparison_exp
+  reserve1: numeric_comparison_exp
+  reserveETH: numeric_comparison_exp
+  reserveUSD: numeric_comparison_exp
+  swaps: Swap_bool_exp
+  tickSpacing: numeric_comparison_exp
+  token0: Token_bool_exp
+  token0Price: numeric_comparison_exp
+  token0_id: String_comparison_exp
+  token1: Token_bool_exp
+  token1Price: numeric_comparison_exp
+  token1_id: String_comparison_exp
+  totalBribesUSD: numeric_comparison_exp
+  totalEmissions: numeric_comparison_exp
+  totalEmissionsUSD: numeric_comparison_exp
+  totalFees0: numeric_comparison_exp
+  totalFees1: numeric_comparison_exp
+  totalFeesUSD: numeric_comparison_exp
+  totalSupply: numeric_comparison_exp
+  totalVotes: numeric_comparison_exp
+  txCount: numeric_comparison_exp
+  volumeETH: numeric_comparison_exp
+  volumeToken0: numeric_comparison_exp
+  volumeToken1: numeric_comparison_exp
+  volumeUSD: numeric_comparison_exp
+}
+
+"""
+order by max() on columns of table "Pool"
+"""
+input Pool_max_order_by {
+  address: order_by
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  db_write_timestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  gauge_id: order_by
+  id: order_by
+  name: order_by
+  poolType: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token0_id: order_by
+  token1Price: order_by
+  token1_id: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+order by min() on columns of table "Pool"
+"""
+input Pool_min_order_by {
+  address: order_by
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  db_write_timestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  gauge_id: order_by
+  id: order_by
+  name: order_by
+  poolType: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token0_id: order_by
+  token1Price: order_by
+  token1_id: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+Ordering options when selecting data from "Pool".
+"""
+input Pool_order_by {
+  address: order_by
+  burns_aggregate: Burn_aggregate_order_by
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  db_write_timestamp: order_by
+  gauge: Gauge_order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  gauge_id: order_by
+  id: order_by
+  liquidityManager_aggregate: LiquidityManager_aggregate_order_by
+  mints_aggregate: Mint_aggregate_order_by
+  name: order_by
+  poolHourData_aggregate: PoolHourData_aggregate_order_by
+  poolType: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  swaps_aggregate: Swap_aggregate_order_by
+  tickSpacing: order_by
+  token0: Token_order_by
+  token0Price: order_by
+  token0_id: order_by
+  token1: Token_order_by
+  token1Price: order_by
+  token1_id: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+select columns of table "Pool"
+"""
+enum Pool_select_column {
+  """
+  column name
+  """
+  address
+  """
+  column name
+  """
+  chainId
+  """
+  column name
+  """
+  createdAtBlockNumber
+  """
+  column name
+  """
+  createdAtTimestamp
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  gaugeFees0CurrentEpoch
+  """
+  column name
+  """
+  gaugeFees1CurrentEpoch
+  """
+  column name
+  """
+  gaugeFeesUSD
+  """
+  column name
+  """
+  gauge_id
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  name
+  """
+  column name
+  """
+  poolType
+  """
+  column name
+  """
+  reserve0
+  """
+  column name
+  """
+  reserve1
+  """
+  column name
+  """
+  reserveETH
+  """
+  column name
+  """
+  reserveUSD
+  """
+  column name
+  """
+  tickSpacing
+  """
+  column name
+  """
+  token0Price
+  """
+  column name
+  """
+  token0_id
+  """
+  column name
+  """
+  token1Price
+  """
+  column name
+  """
+  token1_id
+  """
+  column name
+  """
+  totalBribesUSD
+  """
+  column name
+  """
+  totalEmissions
+  """
+  column name
+  """
+  totalEmissionsUSD
+  """
+  column name
+  """
+  totalFees0
+  """
+  column name
+  """
+  totalFees1
+  """
+  column name
+  """
+  totalFeesUSD
+  """
+  column name
+  """
+  totalSupply
+  """
+  column name
+  """
+  totalVotes
+  """
+  column name
+  """
+  txCount
+  """
+  column name
+  """
+  volumeETH
+  """
+  column name
+  """
+  volumeToken0
+  """
+  column name
+  """
+  volumeToken1
+  """
+  column name
+  """
+  volumeUSD
+}
+
+"""
+order by stddev() on columns of table "Pool"
+"""
+input Pool_stddev_order_by {
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token1Price: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "Pool"
+"""
+input Pool_stddev_pop_order_by {
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token1Price: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "Pool"
+"""
+input Pool_stddev_samp_order_by {
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token1Price: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+Streaming cursor of the table "Pool"
+"""
+input Pool_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Pool_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Pool_stream_cursor_value_input {
+  address: String
+  chainId: Int
+  createdAtBlockNumber: numeric
+  createdAtTimestamp: numeric
+  db_write_timestamp: timestamp
+  gaugeFees0CurrentEpoch: numeric
+  gaugeFees1CurrentEpoch: numeric
+  gaugeFeesUSD: numeric
+  gauge_id: String
+  id: String
+  name: String
+  poolType: pooltype
+  reserve0: numeric
+  reserve1: numeric
+  reserveETH: numeric
+  reserveUSD: numeric
+  tickSpacing: numeric
+  token0Price: numeric
+  token0_id: String
+  token1Price: numeric
+  token1_id: String
+  totalBribesUSD: numeric
+  totalEmissions: numeric
+  totalEmissionsUSD: numeric
+  totalFees0: numeric
+  totalFees1: numeric
+  totalFeesUSD: numeric
+  totalSupply: numeric
+  totalVotes: numeric
+  txCount: numeric
+  volumeETH: numeric
+  volumeToken0: numeric
+  volumeToken1: numeric
+  volumeUSD: numeric
+}
+
+"""
+order by sum() on columns of table "Pool"
+"""
+input Pool_sum_order_by {
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token1Price: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+order by var_pop() on columns of table "Pool"
+"""
+input Pool_var_pop_order_by {
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token1Price: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+order by var_samp() on columns of table "Pool"
+"""
+input Pool_var_samp_order_by {
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token1Price: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+order by variance() on columns of table "Pool"
+"""
+input Pool_variance_order_by {
+  chainId: order_by
+  createdAtBlockNumber: order_by
+  createdAtTimestamp: order_by
+  gaugeFees0CurrentEpoch: order_by
+  gaugeFees1CurrentEpoch: order_by
+  gaugeFeesUSD: order_by
+  reserve0: order_by
+  reserve1: order_by
+  reserveETH: order_by
+  reserveUSD: order_by
+  tickSpacing: order_by
+  token0Price: order_by
+  token1Price: order_by
+  totalBribesUSD: order_by
+  totalEmissions: order_by
+  totalEmissionsUSD: order_by
+  totalFees0: order_by
+  totalFees1: order_by
+  totalFeesUSD: order_by
+  totalSupply: order_by
+  totalVotes: order_by
+  txCount: order_by
+  volumeETH: order_by
+  volumeToken0: order_by
+  volumeToken1: order_by
+  volumeUSD: order_by
+}
+
+"""
+columns and relationships of "Statistics"
+"""
+type Statistics {
+  db_write_timestamp: timestamp
+  id: String!
+  totalBribesUSD: numeric!
+  totalFeesUSD: numeric!
+  totalPairsCreated: numeric!
+  totalTradeVolumeETH: numeric!
+  totalTradeVolumeUSD: numeric!
+  totalVolumeLockedETH: numeric!
+  totalVolumeLockedUSD: numeric!
+  txCount: numeric!
+}
+
+"""
+Boolean expression to filter rows from the table "Statistics". All fields are combined with a logical 'AND'.
+"""
+input Statistics_bool_exp {
+  _and: [Statistics_bool_exp!]
+  _not: Statistics_bool_exp
+  _or: [Statistics_bool_exp!]
+  db_write_timestamp: timestamp_comparison_exp
+  id: String_comparison_exp
+  totalBribesUSD: numeric_comparison_exp
+  totalFeesUSD: numeric_comparison_exp
+  totalPairsCreated: numeric_comparison_exp
+  totalTradeVolumeETH: numeric_comparison_exp
+  totalTradeVolumeUSD: numeric_comparison_exp
+  totalVolumeLockedETH: numeric_comparison_exp
+  totalVolumeLockedUSD: numeric_comparison_exp
+  txCount: numeric_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "Statistics".
+"""
+input Statistics_order_by {
+  db_write_timestamp: order_by
+  id: order_by
+  totalBribesUSD: order_by
+  totalFeesUSD: order_by
+  totalPairsCreated: order_by
+  totalTradeVolumeETH: order_by
+  totalTradeVolumeUSD: order_by
+  totalVolumeLockedETH: order_by
+  totalVolumeLockedUSD: order_by
+  txCount: order_by
+}
+
+"""
+select columns of table "Statistics"
+"""
+enum Statistics_select_column {
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  totalBribesUSD
+  """
+  column name
+  """
+  totalFeesUSD
+  """
+  column name
+  """
+  totalPairsCreated
+  """
+  column name
+  """
+  totalTradeVolumeETH
+  """
+  column name
+  """
+  totalTradeVolumeUSD
+  """
+  column name
+  """
+  totalVolumeLockedETH
+  """
+  column name
+  """
+  totalVolumeLockedUSD
+  """
+  column name
+  """
+  txCount
+}
+
+"""
+Streaming cursor of the table "Statistics"
+"""
+input Statistics_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Statistics_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Statistics_stream_cursor_value_input {
+  db_write_timestamp: timestamp
+  id: String
+  totalBribesUSD: numeric
+  totalFeesUSD: numeric
+  totalPairsCreated: numeric
+  totalTradeVolumeETH: numeric
+  totalTradeVolumeUSD: numeric
+  totalVolumeLockedETH: numeric
+  totalVolumeLockedUSD: numeric
+  txCount: numeric
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  """
+  does the column match the given case-insensitive pattern
+  """
+  _ilike: String
+  _in: [String!]
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+  """
+  does the column match the given pattern
+  """
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  """
+  does the column NOT match the given case-insensitive pattern
+  """
+  _nilike: String
+  _nin: [String!]
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+  """
+  does the column NOT match the given pattern
+  """
+  _nlike: String
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+  """
+  does the column NOT match the given SQL regular expression
+  """
+  _nsimilar: String
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+  """
+  does the column match the given SQL regular expression
+  """
+  _similar: String
+}
+
+"""
+columns and relationships of "Swap"
+"""
+type Swap {
+  amount0In: numeric!
+  amount0Out: numeric!
+  amount1In: numeric!
+  amount1Out: numeric!
+  amountUSD: numeric!
+  db_write_timestamp: timestamp
+  from: String!
+  id: String!
+  logIndex: numeric
+  """
+  An object relationship
+  """
+  pool: Pool
+  pool_id: String!
+  sender: String!
+  timestamp: numeric!
+  to: String!
+  """
+  An object relationship
+  """
+  transaction: Transaction
+  transaction_id: String!
+}
+
+"""
+order by aggregate values of table "Swap"
+"""
+input Swap_aggregate_order_by {
+  avg: Swap_avg_order_by
+  count: order_by
+  max: Swap_max_order_by
+  min: Swap_min_order_by
+  stddev: Swap_stddev_order_by
+  stddev_pop: Swap_stddev_pop_order_by
+  stddev_samp: Swap_stddev_samp_order_by
+  sum: Swap_sum_order_by
+  var_pop: Swap_var_pop_order_by
+  var_samp: Swap_var_samp_order_by
+  variance: Swap_variance_order_by
+}
+
+"""
+order by avg() on columns of table "Swap"
+"""
+input Swap_avg_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "Swap". All fields are combined with a logical 'AND'.
+"""
+input Swap_bool_exp {
+  _and: [Swap_bool_exp!]
+  _not: Swap_bool_exp
+  _or: [Swap_bool_exp!]
+  amount0In: numeric_comparison_exp
+  amount0Out: numeric_comparison_exp
+  amount1In: numeric_comparison_exp
+  amount1Out: numeric_comparison_exp
+  amountUSD: numeric_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  from: String_comparison_exp
+  id: String_comparison_exp
+  logIndex: numeric_comparison_exp
+  pool: Pool_bool_exp
+  pool_id: String_comparison_exp
+  sender: String_comparison_exp
+  timestamp: numeric_comparison_exp
+  to: String_comparison_exp
+  transaction: Transaction_bool_exp
+  transaction_id: String_comparison_exp
+}
+
+"""
+order by max() on columns of table "Swap"
+"""
+input Swap_max_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  from: order_by
+  id: order_by
+  logIndex: order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction_id: order_by
+}
+
+"""
+order by min() on columns of table "Swap"
+"""
+input Swap_min_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  from: order_by
+  id: order_by
+  logIndex: order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction_id: order_by
+}
+
+"""
+Ordering options when selecting data from "Swap".
+"""
+input Swap_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  db_write_timestamp: order_by
+  from: order_by
+  id: order_by
+  logIndex: order_by
+  pool: Pool_order_by
+  pool_id: order_by
+  sender: order_by
+  timestamp: order_by
+  to: order_by
+  transaction: Transaction_order_by
+  transaction_id: order_by
+}
+
+"""
+select columns of table "Swap"
+"""
+enum Swap_select_column {
+  """
+  column name
+  """
+  amount0In
+  """
+  column name
+  """
+  amount0Out
+  """
+  column name
+  """
+  amount1In
+  """
+  column name
+  """
+  amount1Out
+  """
+  column name
+  """
+  amountUSD
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  from
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  logIndex
+  """
+  column name
+  """
+  pool_id
+  """
+  column name
+  """
+  sender
+  """
+  column name
+  """
+  timestamp
+  """
+  column name
+  """
+  to
+  """
+  column name
+  """
+  transaction_id
+}
+
+"""
+order by stddev() on columns of table "Swap"
+"""
+input Swap_stddev_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "Swap"
+"""
+input Swap_stddev_pop_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "Swap"
+"""
+input Swap_stddev_samp_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+Streaming cursor of the table "Swap"
+"""
+input Swap_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Swap_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Swap_stream_cursor_value_input {
+  amount0In: numeric
+  amount0Out: numeric
+  amount1In: numeric
+  amount1Out: numeric
+  amountUSD: numeric
+  db_write_timestamp: timestamp
+  from: String
+  id: String
+  logIndex: numeric
+  pool_id: String
+  sender: String
+  timestamp: numeric
+  to: String
+  transaction_id: String
+}
+
+"""
+order by sum() on columns of table "Swap"
+"""
+input Swap_sum_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by var_pop() on columns of table "Swap"
+"""
+input Swap_var_pop_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by var_samp() on columns of table "Swap"
+"""
+input Swap_var_samp_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+order by variance() on columns of table "Swap"
+"""
+input Swap_variance_order_by {
+  amount0In: order_by
+  amount0Out: order_by
+  amount1In: order_by
+  amount1Out: order_by
+  amountUSD: order_by
+  logIndex: order_by
+  timestamp: order_by
+}
+
+"""
+columns and relationships of "Token"
+"""
+type Token {
+  address: String!
+  """
+  An array relationship
+  """
+  basePools(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Pool_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Pool_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Pool_bool_exp
+  ): [Pool!]!
+  chainId: Int!
+  db_write_timestamp: timestamp
+  decimals: Int!
+  derivedETH: numeric!
+  derivedUSD: numeric!
+  id: String!
+  name: String!
+  """
+  An array relationship
+  """
+  quotePools(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Pool_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Pool_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Pool_bool_exp
+  ): [Pool!]!
+  symbol: String!
+  totalLiquidity: numeric!
+  totalLiquidityETH: numeric!
+  totalLiquidityUSD: numeric!
+  tradeVolume: numeric!
+  tradeVolumeUSD: numeric!
+  txCount: numeric!
+}
+
+"""
+columns and relationships of "TokenDayData"
+"""
+type TokenDayData {
+  dailyTxns: numeric!
+  dailyVolumeETH: numeric!
+  dailyVolumeToken: numeric!
+  dailyVolumeUSD: numeric!
+  date: Int!
+  db_write_timestamp: timestamp
+  id: String!
+  priceETH: numeric!
+  priceUSD: numeric!
+  """
+  An object relationship
+  """
+  token: Token
+  token_id: String!
+  totalLiquidityETH: numeric!
+  totalLiquidityToken: numeric!
+  totalLiquidityUSD: numeric!
+}
+
+"""
+Boolean expression to filter rows from the table "TokenDayData". All fields are combined with a logical 'AND'.
+"""
+input TokenDayData_bool_exp {
+  _and: [TokenDayData_bool_exp!]
+  _not: TokenDayData_bool_exp
+  _or: [TokenDayData_bool_exp!]
+  dailyTxns: numeric_comparison_exp
+  dailyVolumeETH: numeric_comparison_exp
+  dailyVolumeToken: numeric_comparison_exp
+  dailyVolumeUSD: numeric_comparison_exp
+  date: Int_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  id: String_comparison_exp
+  priceETH: numeric_comparison_exp
+  priceUSD: numeric_comparison_exp
+  token: Token_bool_exp
+  token_id: String_comparison_exp
+  totalLiquidityETH: numeric_comparison_exp
+  totalLiquidityToken: numeric_comparison_exp
+  totalLiquidityUSD: numeric_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "TokenDayData".
+"""
+input TokenDayData_order_by {
+  dailyTxns: order_by
+  dailyVolumeETH: order_by
+  dailyVolumeToken: order_by
+  dailyVolumeUSD: order_by
+  date: order_by
+  db_write_timestamp: order_by
+  id: order_by
+  priceETH: order_by
+  priceUSD: order_by
+  token: Token_order_by
+  token_id: order_by
+  totalLiquidityETH: order_by
+  totalLiquidityToken: order_by
+  totalLiquidityUSD: order_by
+}
+
+"""
+select columns of table "TokenDayData"
+"""
+enum TokenDayData_select_column {
+  """
+  column name
+  """
+  dailyTxns
+  """
+  column name
+  """
+  dailyVolumeETH
+  """
+  column name
+  """
+  dailyVolumeToken
+  """
+  column name
+  """
+  dailyVolumeUSD
+  """
+  column name
+  """
+  date
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  priceETH
+  """
+  column name
+  """
+  priceUSD
+  """
+  column name
+  """
+  token_id
+  """
+  column name
+  """
+  totalLiquidityETH
+  """
+  column name
+  """
+  totalLiquidityToken
+  """
+  column name
+  """
+  totalLiquidityUSD
+}
+
+"""
+Streaming cursor of the table "TokenDayData"
+"""
+input TokenDayData_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: TokenDayData_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input TokenDayData_stream_cursor_value_input {
+  dailyTxns: numeric
+  dailyVolumeETH: numeric
+  dailyVolumeToken: numeric
+  dailyVolumeUSD: numeric
+  date: Int
+  db_write_timestamp: timestamp
+  id: String
+  priceETH: numeric
+  priceUSD: numeric
+  token_id: String
+  totalLiquidityETH: numeric
+  totalLiquidityToken: numeric
+  totalLiquidityUSD: numeric
+}
+
+"""
+Boolean expression to filter rows from the table "Token". All fields are combined with a logical 'AND'.
+"""
+input Token_bool_exp {
+  _and: [Token_bool_exp!]
+  _not: Token_bool_exp
+  _or: [Token_bool_exp!]
+  address: String_comparison_exp
+  basePools: Pool_bool_exp
+  chainId: Int_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  decimals: Int_comparison_exp
+  derivedETH: numeric_comparison_exp
+  derivedUSD: numeric_comparison_exp
+  id: String_comparison_exp
+  name: String_comparison_exp
+  quotePools: Pool_bool_exp
+  symbol: String_comparison_exp
+  totalLiquidity: numeric_comparison_exp
+  totalLiquidityETH: numeric_comparison_exp
+  totalLiquidityUSD: numeric_comparison_exp
+  tradeVolume: numeric_comparison_exp
+  tradeVolumeUSD: numeric_comparison_exp
+  txCount: numeric_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "Token".
+"""
+input Token_order_by {
+  address: order_by
+  basePools_aggregate: Pool_aggregate_order_by
+  chainId: order_by
+  db_write_timestamp: order_by
+  decimals: order_by
+  derivedETH: order_by
+  derivedUSD: order_by
+  id: order_by
+  name: order_by
+  quotePools_aggregate: Pool_aggregate_order_by
+  symbol: order_by
+  totalLiquidity: order_by
+  totalLiquidityETH: order_by
+  totalLiquidityUSD: order_by
+  tradeVolume: order_by
+  tradeVolumeUSD: order_by
+  txCount: order_by
+}
+
+"""
+select columns of table "Token"
+"""
+enum Token_select_column {
+  """
+  column name
+  """
+  address
+  """
+  column name
+  """
+  chainId
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  decimals
+  """
+  column name
+  """
+  derivedETH
+  """
+  column name
+  """
+  derivedUSD
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  name
+  """
+  column name
+  """
+  symbol
+  """
+  column name
+  """
+  totalLiquidity
+  """
+  column name
+  """
+  totalLiquidityETH
+  """
+  column name
+  """
+  totalLiquidityUSD
+  """
+  column name
+  """
+  tradeVolume
+  """
+  column name
+  """
+  tradeVolumeUSD
+  """
+  column name
+  """
+  txCount
+}
+
+"""
+Streaming cursor of the table "Token"
+"""
+input Token_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Token_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Token_stream_cursor_value_input {
+  address: String
+  chainId: Int
+  db_write_timestamp: timestamp
+  decimals: Int
+  derivedETH: numeric
+  derivedUSD: numeric
+  id: String
+  name: String
+  symbol: String
+  totalLiquidity: numeric
+  totalLiquidityETH: numeric
+  totalLiquidityUSD: numeric
+  tradeVolume: numeric
+  tradeVolumeUSD: numeric
+  txCount: numeric
+}
+
+"""
+columns and relationships of "Transaction"
+"""
+type Transaction {
+  block: numeric!
+  """
+  An array relationship
+  """
+  burns(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Burn_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Burn_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Burn_bool_exp
+  ): [Burn!]!
+  db_write_timestamp: timestamp
+  hash: String!
+  id: String!
+  """
+  An array relationship
+  """
+  mints(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Mint_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Mint_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Mint_bool_exp
+  ): [Mint!]!
+  """
+  An array relationship
+  """
+  swaps(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Swap_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Swap_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Swap_bool_exp
+  ): [Swap!]!
+  timestamp: numeric!
+}
+
+"""
+Boolean expression to filter rows from the table "Transaction". All fields are combined with a logical 'AND'.
+"""
+input Transaction_bool_exp {
+  _and: [Transaction_bool_exp!]
+  _not: Transaction_bool_exp
+  _or: [Transaction_bool_exp!]
+  block: numeric_comparison_exp
+  burns: Burn_bool_exp
+  db_write_timestamp: timestamp_comparison_exp
+  hash: String_comparison_exp
+  id: String_comparison_exp
+  mints: Mint_bool_exp
+  swaps: Swap_bool_exp
+  timestamp: numeric_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "Transaction".
+"""
+input Transaction_order_by {
+  block: order_by
+  burns_aggregate: Burn_aggregate_order_by
+  db_write_timestamp: order_by
+  hash: order_by
+  id: order_by
+  mints_aggregate: Mint_aggregate_order_by
+  swaps_aggregate: Swap_aggregate_order_by
+  timestamp: order_by
+}
+
+"""
+select columns of table "Transaction"
+"""
+enum Transaction_select_column {
+  """
+  column name
+  """
+  block
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  hash
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  timestamp
+}
+
+"""
+Streaming cursor of the table "Transaction"
+"""
+input Transaction_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: Transaction_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input Transaction_stream_cursor_value_input {
+  block: numeric
+  db_write_timestamp: timestamp
+  hash: String
+  id: String
+  timestamp: numeric
+}
+
+"""
+columns and relationships of "User"
+"""
+type User {
+  address: String!
+  db_write_timestamp: timestamp
+  """
+  An array relationship
+  """
+  gaugePositions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [GaugePosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [GaugePosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: GaugePosition_bool_exp
+  ): [GaugePosition!]!
+  id: String!
+  """
+  An array relationship
+  """
+  lockPositions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LockPosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LockPosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LockPosition_bool_exp
+  ): [LockPosition!]!
+  """
+  An array relationship
+  """
+  lpPositions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LiquidityPosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LiquidityPosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LiquidityPosition_bool_exp
+  ): [LiquidityPosition!]!
+}
+
+"""
+Boolean expression to filter rows from the table "User". All fields are combined with a logical 'AND'.
+"""
+input User_bool_exp {
+  _and: [User_bool_exp!]
+  _not: User_bool_exp
+  _or: [User_bool_exp!]
+  address: String_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  gaugePositions: GaugePosition_bool_exp
+  id: String_comparison_exp
+  lockPositions: LockPosition_bool_exp
+  lpPositions: LiquidityPosition_bool_exp
+}
+
+"""
+Ordering options when selecting data from "User".
+"""
+input User_order_by {
+  address: order_by
+  db_write_timestamp: order_by
+  gaugePositions_aggregate: GaugePosition_aggregate_order_by
+  id: order_by
+  lockPositions_aggregate: LockPosition_aggregate_order_by
+  lpPositions_aggregate: LiquidityPosition_aggregate_order_by
+}
+
+"""
+select columns of table "User"
+"""
+enum User_select_column {
+  """
+  column name
+  """
+  address
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  id
+}
+
+"""
+Streaming cursor of the table "User"
+"""
+input User_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: User_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input User_stream_cursor_value_input {
+  address: String
+  db_write_timestamp: timestamp
+  id: String
+}
+
+"""
+columns and relationships of "chain_metadata"
+"""
+type chain_metadata {
+  block_height: Int!
+  chain_id: Int!
+  end_block: Int
+  first_event_block_number: Int
+  is_hyper_sync: Boolean!
+  latest_fetched_block_number: Int!
+  latest_processed_block: Int
+  num_batches_fetched: Int!
+  num_events_processed: Int
+  start_block: Int!
+  timestamp_caught_up_to_head_or_endblock: timestamptz
+}
+
+"""
+Boolean expression to filter rows from the table "chain_metadata". All fields are combined with a logical 'AND'.
+"""
+input chain_metadata_bool_exp {
+  _and: [chain_metadata_bool_exp!]
+  _not: chain_metadata_bool_exp
+  _or: [chain_metadata_bool_exp!]
+  block_height: Int_comparison_exp
+  chain_id: Int_comparison_exp
+  end_block: Int_comparison_exp
+  first_event_block_number: Int_comparison_exp
+  is_hyper_sync: Boolean_comparison_exp
+  latest_fetched_block_number: Int_comparison_exp
+  latest_processed_block: Int_comparison_exp
+  num_batches_fetched: Int_comparison_exp
+  num_events_processed: Int_comparison_exp
+  start_block: Int_comparison_exp
+  timestamp_caught_up_to_head_or_endblock: timestamptz_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "chain_metadata".
+"""
+input chain_metadata_order_by {
+  block_height: order_by
+  chain_id: order_by
+  end_block: order_by
+  first_event_block_number: order_by
+  is_hyper_sync: order_by
+  latest_fetched_block_number: order_by
+  latest_processed_block: order_by
+  num_batches_fetched: order_by
+  num_events_processed: order_by
+  start_block: order_by
+  timestamp_caught_up_to_head_or_endblock: order_by
+}
+
+"""
+select columns of table "chain_metadata"
+"""
+enum chain_metadata_select_column {
+  """
+  column name
+  """
+  block_height
+  """
+  column name
+  """
+  chain_id
+  """
+  column name
+  """
+  end_block
+  """
+  column name
+  """
+  first_event_block_number
+  """
+  column name
+  """
+  is_hyper_sync
+  """
+  column name
+  """
+  latest_fetched_block_number
+  """
+  column name
+  """
+  latest_processed_block
+  """
+  column name
+  """
+  num_batches_fetched
+  """
+  column name
+  """
+  num_events_processed
+  """
+  column name
+  """
+  start_block
+  """
+  column name
+  """
+  timestamp_caught_up_to_head_or_endblock
+}
+
+"""
+Streaming cursor of the table "chain_metadata"
+"""
+input chain_metadata_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: chain_metadata_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input chain_metadata_stream_cursor_value_input {
+  block_height: Int
+  chain_id: Int
+  end_block: Int
+  first_event_block_number: Int
+  is_hyper_sync: Boolean
+  latest_fetched_block_number: Int
+  latest_processed_block: Int
+  num_batches_fetched: Int
+  num_events_processed: Int
+  start_block: Int
+  timestamp_caught_up_to_head_or_endblock: timestamptz
+}
+
+scalar contract_type
+
+"""
+Boolean expression to compare columns of type "contract_type". All fields are combined with logical 'AND'.
+"""
+input contract_type_comparison_exp {
+  _eq: contract_type
+  _gt: contract_type
+  _gte: contract_type
+  _in: [contract_type!]
+  _is_null: Boolean
+  _lt: contract_type
+  _lte: contract_type
+  _neq: contract_type
+  _nin: [contract_type!]
+}
+
+"""
+ordering argument of a cursor
+"""
+enum cursor_ordering {
+  """
+  ascending ordering of the cursor
+  """
+  ASC
+  """
+  descending ordering of the cursor
+  """
+  DESC
+}
+
+"""
+columns and relationships of "dynamic_contract_registry"
+"""
+type dynamic_contract_registry {
+  chain_id: Int!
+  contract_address: String!
+  contract_type: contract_type!
+  id: String!
+  registering_event_block_number: Int!
+  registering_event_block_timestamp: Int!
+  registering_event_contract_name: String!
+  registering_event_log_index: Int!
+  registering_event_name: String!
+  registering_event_src_address: String!
+}
+
+"""
+Boolean expression to filter rows from the table "dynamic_contract_registry". All fields are combined with a logical 'AND'.
+"""
+input dynamic_contract_registry_bool_exp {
+  _and: [dynamic_contract_registry_bool_exp!]
+  _not: dynamic_contract_registry_bool_exp
+  _or: [dynamic_contract_registry_bool_exp!]
+  chain_id: Int_comparison_exp
+  contract_address: String_comparison_exp
+  contract_type: contract_type_comparison_exp
+  id: String_comparison_exp
+  registering_event_block_number: Int_comparison_exp
+  registering_event_block_timestamp: Int_comparison_exp
+  registering_event_contract_name: String_comparison_exp
+  registering_event_log_index: Int_comparison_exp
+  registering_event_name: String_comparison_exp
+  registering_event_src_address: String_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "dynamic_contract_registry".
+"""
+input dynamic_contract_registry_order_by {
+  chain_id: order_by
+  contract_address: order_by
+  contract_type: order_by
+  id: order_by
+  registering_event_block_number: order_by
+  registering_event_block_timestamp: order_by
+  registering_event_contract_name: order_by
+  registering_event_log_index: order_by
+  registering_event_name: order_by
+  registering_event_src_address: order_by
+}
+
+"""
+select columns of table "dynamic_contract_registry"
+"""
+enum dynamic_contract_registry_select_column {
+  """
+  column name
+  """
+  chain_id
+  """
+  column name
+  """
+  contract_address
+  """
+  column name
+  """
+  contract_type
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  registering_event_block_number
+  """
+  column name
+  """
+  registering_event_block_timestamp
+  """
+  column name
+  """
+  registering_event_contract_name
+  """
+  column name
+  """
+  registering_event_log_index
+  """
+  column name
+  """
+  registering_event_name
+  """
+  column name
+  """
+  registering_event_src_address
+}
+
+"""
+Streaming cursor of the table "dynamic_contract_registry"
+"""
+input dynamic_contract_registry_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: dynamic_contract_registry_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input dynamic_contract_registry_stream_cursor_value_input {
+  chain_id: Int
+  contract_address: String
+  contract_type: contract_type
+  id: String
+  registering_event_block_number: Int
+  registering_event_block_timestamp: Int
+  registering_event_contract_name: String
+  registering_event_log_index: Int
+  registering_event_name: String
+  registering_event_src_address: String
+}
+
+"""
+columns and relationships of "end_of_block_range_scanned_data"
+"""
+type end_of_block_range_scanned_data {
+  block_hash: String!
+  block_number: Int!
+  chain_id: Int!
+}
+
+"""
+Boolean expression to filter rows from the table "end_of_block_range_scanned_data". All fields are combined with a logical 'AND'.
+"""
+input end_of_block_range_scanned_data_bool_exp {
+  _and: [end_of_block_range_scanned_data_bool_exp!]
+  _not: end_of_block_range_scanned_data_bool_exp
+  _or: [end_of_block_range_scanned_data_bool_exp!]
+  block_hash: String_comparison_exp
+  block_number: Int_comparison_exp
+  chain_id: Int_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "end_of_block_range_scanned_data".
+"""
+input end_of_block_range_scanned_data_order_by {
+  block_hash: order_by
+  block_number: order_by
+  chain_id: order_by
+}
+
+"""
+select columns of table "end_of_block_range_scanned_data"
+"""
+enum end_of_block_range_scanned_data_select_column {
+  """
+  column name
+  """
+  block_hash
+  """
+  column name
+  """
+  block_number
+  """
+  column name
+  """
+  chain_id
+}
+
+"""
+Streaming cursor of the table "end_of_block_range_scanned_data"
+"""
+input end_of_block_range_scanned_data_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: end_of_block_range_scanned_data_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input end_of_block_range_scanned_data_stream_cursor_value_input {
+  block_hash: String
+  block_number: Int
+  chain_id: Int
+}
+
+"""
+columns and relationships of "event_sync_state"
+"""
+type event_sync_state {
+  block_number: Int!
+  block_timestamp: Int!
+  chain_id: Int!
+  is_pre_registering_dynamic_contracts: Boolean
+  log_index: Int!
+}
+
+"""
+Boolean expression to filter rows from the table "event_sync_state". All fields are combined with a logical 'AND'.
+"""
+input event_sync_state_bool_exp {
+  _and: [event_sync_state_bool_exp!]
+  _not: event_sync_state_bool_exp
+  _or: [event_sync_state_bool_exp!]
+  block_number: Int_comparison_exp
+  block_timestamp: Int_comparison_exp
+  chain_id: Int_comparison_exp
+  is_pre_registering_dynamic_contracts: Boolean_comparison_exp
+  log_index: Int_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "event_sync_state".
+"""
+input event_sync_state_order_by {
+  block_number: order_by
+  block_timestamp: order_by
+  chain_id: order_by
+  is_pre_registering_dynamic_contracts: order_by
+  log_index: order_by
+}
+
+"""
+select columns of table "event_sync_state"
+"""
+enum event_sync_state_select_column {
+  """
+  column name
+  """
+  block_number
+  """
+  column name
+  """
+  block_timestamp
+  """
+  column name
+  """
+  chain_id
+  """
+  column name
+  """
+  is_pre_registering_dynamic_contracts
+  """
+  column name
+  """
+  log_index
+}
+
+"""
+Streaming cursor of the table "event_sync_state"
+"""
+input event_sync_state_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: event_sync_state_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input event_sync_state_stream_cursor_value_input {
+  block_number: Int
+  block_timestamp: Int
+  chain_id: Int
+  is_pre_registering_dynamic_contracts: Boolean
+  log_index: Int
+}
+
+scalar jsonb
+
+input jsonb_cast_exp {
+  String: String_comparison_exp
+}
+
+"""
+Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+  _cast: jsonb_cast_exp
+  """
+  is the column contained in the given json value
+  """
+  _contained_in: jsonb
+  """
+  does the column contain the given json value at the top level
+  """
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+  """
+  does the string exist as a top-level key in the column
+  """
+  _has_key: String
+  """
+  do all of these strings exist as top-level keys in the column
+  """
+  _has_keys_all: [String!]
+  """
+  do any of these strings exist as top-level keys in the column
+  """
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
+}
+
+scalar locktype
+
+"""
+Boolean expression to compare columns of type "locktype". All fields are combined with logical 'AND'.
+"""
+input locktype_comparison_exp {
+  _eq: locktype
+  _gt: locktype
+  _gte: locktype
+  _in: [locktype!]
+  _is_null: Boolean
+  _lt: locktype
+  _lte: locktype
+  _neq: locktype
+  _nin: [locktype!]
+}
+
+scalar lpmanagementprovider
+
+"""
+Boolean expression to compare columns of type "lpmanagementprovider". All fields are combined with logical 'AND'.
+"""
+input lpmanagementprovider_comparison_exp {
+  _eq: lpmanagementprovider
+  _gt: lpmanagementprovider
+  _gte: lpmanagementprovider
+  _in: [lpmanagementprovider!]
+  _is_null: Boolean
+  _lt: lpmanagementprovider
+  _lte: lpmanagementprovider
+  _neq: lpmanagementprovider
+  _nin: [lpmanagementprovider!]
+}
+
+scalar numeric
+
+"""
+Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+  _gt: numeric
+  _gte: numeric
+  _in: [numeric!]
+  _is_null: Boolean
+  _lt: numeric
+  _lte: numeric
+  _neq: numeric
+  _nin: [numeric!]
+}
+
+"""
+column ordering options
+"""
+enum order_by {
+  """
+  in ascending order, nulls last
+  """
+  asc
+  """
+  in ascending order, nulls first
+  """
+  asc_nulls_first
+  """
+  in ascending order, nulls last
+  """
+  asc_nulls_last
+  """
+  in descending order, nulls first
+  """
+  desc
+  """
+  in descending order, nulls first
+  """
+  desc_nulls_first
+  """
+  in descending order, nulls last
+  """
+  desc_nulls_last
+}
+
+"""
+columns and relationships of "persisted_state"
+"""
+type persisted_state {
+  abi_files_hash: String!
+  config_hash: String!
+  envio_version: String!
+  handler_files_hash: String!
+  id: Int!
+  schema_hash: String!
+}
+
+"""
+Boolean expression to filter rows from the table "persisted_state". All fields are combined with a logical 'AND'.
+"""
+input persisted_state_bool_exp {
+  _and: [persisted_state_bool_exp!]
+  _not: persisted_state_bool_exp
+  _or: [persisted_state_bool_exp!]
+  abi_files_hash: String_comparison_exp
+  config_hash: String_comparison_exp
+  envio_version: String_comparison_exp
+  handler_files_hash: String_comparison_exp
+  id: Int_comparison_exp
+  schema_hash: String_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "persisted_state".
+"""
+input persisted_state_order_by {
+  abi_files_hash: order_by
+  config_hash: order_by
+  envio_version: order_by
+  handler_files_hash: order_by
+  id: order_by
+  schema_hash: order_by
+}
+
+"""
+select columns of table "persisted_state"
+"""
+enum persisted_state_select_column {
+  """
+  column name
+  """
+  abi_files_hash
+  """
+  column name
+  """
+  config_hash
+  """
+  column name
+  """
+  envio_version
+  """
+  column name
+  """
+  handler_files_hash
+  """
+  column name
+  """
+  id
+  """
+  column name
+  """
+  schema_hash
+}
+
+"""
+Streaming cursor of the table "persisted_state"
+"""
+input persisted_state_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: persisted_state_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input persisted_state_stream_cursor_value_input {
+  abi_files_hash: String
+  config_hash: String
+  envio_version: String
+  handler_files_hash: String
+  id: Int
+  schema_hash: String
+}
+
+scalar pooltype
+
+"""
+Boolean expression to compare columns of type "pooltype". All fields are combined with logical 'AND'.
+"""
+input pooltype_comparison_exp {
+  _eq: pooltype
+  _gt: pooltype
+  _gte: pooltype
+  _in: [pooltype!]
+  _is_null: Boolean
+  _lt: pooltype
+  _lte: pooltype
+  _neq: pooltype
+  _nin: [pooltype!]
+}
+
+type query_root {
+  """
+  fetch data from the table: "Bundle"
+  """
+  Bundle(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Bundle_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Bundle_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Bundle_bool_exp
+  ): [Bundle!]!
+  """
+  fetch data from the table: "Bundle" using primary key columns
+  """
+  Bundle_by_pk(id: String!): Bundle
+  """
+  fetch data from the table: "Burn"
+  """
+  Burn(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Burn_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Burn_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Burn_bool_exp
+  ): [Burn!]!
+  """
+  fetch data from the table: "Burn" using primary key columns
+  """
+  Burn_by_pk(id: String!): Burn
+  """
+  fetch data from the table: "Gauge"
+  """
+  Gauge(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Gauge_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Gauge_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Gauge_bool_exp
+  ): [Gauge!]!
+  """
+  fetch data from the table: "GaugePosition"
+  """
+  GaugePosition(
+    """
+    distinct select on columns
+    """
+    distinct_on: [GaugePosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [GaugePosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: GaugePosition_bool_exp
+  ): [GaugePosition!]!
+  """
+  fetch data from the table: "GaugePosition" using primary key columns
+  """
+  GaugePosition_by_pk(id: String!): GaugePosition
+  """
+  fetch data from the table: "Gauge" using primary key columns
+  """
+  Gauge_by_pk(id: String!): Gauge
+  """
+  fetch data from the table: "LiquidityManager"
+  """
+  LiquidityManager(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LiquidityManager_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LiquidityManager_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LiquidityManager_bool_exp
+  ): [LiquidityManager!]!
+  """
+  fetch data from the table: "LiquidityManager" using primary key columns
+  """
+  LiquidityManager_by_pk(id: String!): LiquidityManager
+  """
+  fetch data from the table: "LiquidityPosition"
+  """
+  LiquidityPosition(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LiquidityPosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LiquidityPosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LiquidityPosition_bool_exp
+  ): [LiquidityPosition!]!
+  """
+  fetch data from the table: "LiquidityPosition" using primary key columns
+  """
+  LiquidityPosition_by_pk(id: String!): LiquidityPosition
+  """
+  fetch data from the table: "LockPosition"
+  """
+  LockPosition(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LockPosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LockPosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LockPosition_bool_exp
+  ): [LockPosition!]!
+  """
+  fetch data from the table: "LockPosition" using primary key columns
+  """
+  LockPosition_by_pk(id: String!): LockPosition
+  """
+  fetch data from the table: "Mint"
+  """
+  Mint(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Mint_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Mint_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Mint_bool_exp
+  ): [Mint!]!
+  """
+  fetch data from the table: "Mint" using primary key columns
+  """
+  Mint_by_pk(id: String!): Mint
+  """
+  fetch data from the table: "NFPMLPMintTracker"
+  """
+  NFPMLPMintTracker(
+    """
+    distinct select on columns
+    """
+    distinct_on: [NFPMLPMintTracker_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [NFPMLPMintTracker_order_by!]
+    """
+    filter the rows returned
+    """
+    where: NFPMLPMintTracker_bool_exp
+  ): [NFPMLPMintTracker!]!
+  """
+  fetch data from the table: "NFPMLPMintTracker" using primary key columns
+  """
+  NFPMLPMintTracker_by_pk(id: String!): NFPMLPMintTracker
+  """
+  fetch data from the table: "OverallDayData"
+  """
+  OverallDayData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [OverallDayData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [OverallDayData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: OverallDayData_bool_exp
+  ): [OverallDayData!]!
+  """
+  fetch data from the table: "OverallDayData" using primary key columns
+  """
+  OverallDayData_by_pk(id: String!): OverallDayData
+  """
+  fetch data from the table: "Pool"
+  """
+  Pool(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Pool_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Pool_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Pool_bool_exp
+  ): [Pool!]!
+  """
+  fetch data from the table: "PoolDayData"
+  """
+  PoolDayData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [PoolDayData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [PoolDayData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: PoolDayData_bool_exp
+  ): [PoolDayData!]!
+  """
+  fetch data from the table: "PoolDayData" using primary key columns
+  """
+  PoolDayData_by_pk(id: String!): PoolDayData
+  """
+  fetch data from the table: "PoolHourData"
+  """
+  PoolHourData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [PoolHourData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [PoolHourData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: PoolHourData_bool_exp
+  ): [PoolHourData!]!
+  """
+  fetch data from the table: "PoolHourData" using primary key columns
+  """
+  PoolHourData_by_pk(id: String!): PoolHourData
+  """
+  fetch data from the table: "Pool" using primary key columns
+  """
+  Pool_by_pk(id: String!): Pool
+  """
+  fetch data from the table: "Statistics"
+  """
+  Statistics(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Statistics_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Statistics_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Statistics_bool_exp
+  ): [Statistics!]!
+  """
+  fetch data from the table: "Statistics" using primary key columns
+  """
+  Statistics_by_pk(id: String!): Statistics
+  """
+  fetch data from the table: "Swap"
+  """
+  Swap(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Swap_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Swap_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Swap_bool_exp
+  ): [Swap!]!
+  """
+  fetch data from the table: "Swap" using primary key columns
+  """
+  Swap_by_pk(id: String!): Swap
+  """
+  fetch data from the table: "Token"
+  """
+  Token(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Token_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Token_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Token_bool_exp
+  ): [Token!]!
+  """
+  fetch data from the table: "TokenDayData"
+  """
+  TokenDayData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [TokenDayData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [TokenDayData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: TokenDayData_bool_exp
+  ): [TokenDayData!]!
+  """
+  fetch data from the table: "TokenDayData" using primary key columns
+  """
+  TokenDayData_by_pk(id: String!): TokenDayData
+  """
+  fetch data from the table: "Token" using primary key columns
+  """
+  Token_by_pk(id: String!): Token
+  """
+  fetch data from the table: "Transaction"
+  """
+  Transaction(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Transaction_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Transaction_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Transaction_bool_exp
+  ): [Transaction!]!
+  """
+  fetch data from the table: "Transaction" using primary key columns
+  """
+  Transaction_by_pk(id: String!): Transaction
+  """
+  fetch data from the table: "User"
+  """
+  User(
+    """
+    distinct select on columns
+    """
+    distinct_on: [User_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [User_order_by!]
+    """
+    filter the rows returned
+    """
+    where: User_bool_exp
+  ): [User!]!
+  """
+  fetch data from the table: "User" using primary key columns
+  """
+  User_by_pk(id: String!): User
+  """
+  fetch data from the table: "chain_metadata"
+  """
+  chain_metadata(
+    """
+    distinct select on columns
+    """
+    distinct_on: [chain_metadata_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [chain_metadata_order_by!]
+    """
+    filter the rows returned
+    """
+    where: chain_metadata_bool_exp
+  ): [chain_metadata!]!
+  """
+  fetch data from the table: "chain_metadata" using primary key columns
+  """
+  chain_metadata_by_pk(chain_id: Int!): chain_metadata
+  """
+  fetch data from the table: "dynamic_contract_registry"
+  """
+  dynamic_contract_registry(
+    """
+    distinct select on columns
+    """
+    distinct_on: [dynamic_contract_registry_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [dynamic_contract_registry_order_by!]
+    """
+    filter the rows returned
+    """
+    where: dynamic_contract_registry_bool_exp
+  ): [dynamic_contract_registry!]!
+  """
+  fetch data from the table: "dynamic_contract_registry" using primary key columns
+  """
+  dynamic_contract_registry_by_pk(id: String!): dynamic_contract_registry
+  """
+  fetch data from the table: "end_of_block_range_scanned_data"
+  """
+  end_of_block_range_scanned_data(
+    """
+    distinct select on columns
+    """
+    distinct_on: [end_of_block_range_scanned_data_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [end_of_block_range_scanned_data_order_by!]
+    """
+    filter the rows returned
+    """
+    where: end_of_block_range_scanned_data_bool_exp
+  ): [end_of_block_range_scanned_data!]!
+  """
+  fetch data from the table: "end_of_block_range_scanned_data" using primary key columns
+  """
+  end_of_block_range_scanned_data_by_pk(
+    block_number: Int!
+    chain_id: Int!
+  ): end_of_block_range_scanned_data
+  """
+  fetch data from the table: "event_sync_state"
+  """
+  event_sync_state(
+    """
+    distinct select on columns
+    """
+    distinct_on: [event_sync_state_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [event_sync_state_order_by!]
+    """
+    filter the rows returned
+    """
+    where: event_sync_state_bool_exp
+  ): [event_sync_state!]!
+  """
+  fetch data from the table: "event_sync_state" using primary key columns
+  """
+  event_sync_state_by_pk(chain_id: Int!): event_sync_state
+  """
+  fetch data from the table: "persisted_state"
+  """
+  persisted_state(
+    """
+    distinct select on columns
+    """
+    distinct_on: [persisted_state_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [persisted_state_order_by!]
+    """
+    filter the rows returned
+    """
+    where: persisted_state_bool_exp
+  ): [persisted_state!]!
+  """
+  fetch data from the table: "persisted_state" using primary key columns
+  """
+  persisted_state_by_pk(id: Int!): persisted_state
+  """
+  fetch data from the table: "raw_events"
+  """
+  raw_events(
+    """
+    distinct select on columns
+    """
+    distinct_on: [raw_events_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [raw_events_order_by!]
+    """
+    filter the rows returned
+    """
+    where: raw_events_bool_exp
+  ): [raw_events!]!
+  """
+  fetch data from the table: "raw_events" using primary key columns
+  """
+  raw_events_by_pk(serial: Int!): raw_events
+}
+
+"""
+columns and relationships of "raw_events"
+"""
+type raw_events {
+  block_fields(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb!
+  block_hash: String!
+  block_number: Int!
+  block_timestamp: Int!
+  chain_id: Int!
+  contract_name: String!
+  db_write_timestamp: timestamp
+  event_id: numeric!
+  event_name: String!
+  log_index: Int!
+  params(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb!
+  serial: Int!
+  src_address: String!
+  transaction_fields(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb!
+}
+
+"""
+Boolean expression to filter rows from the table "raw_events". All fields are combined with a logical 'AND'.
+"""
+input raw_events_bool_exp {
+  _and: [raw_events_bool_exp!]
+  _not: raw_events_bool_exp
+  _or: [raw_events_bool_exp!]
+  block_fields: jsonb_comparison_exp
+  block_hash: String_comparison_exp
+  block_number: Int_comparison_exp
+  block_timestamp: Int_comparison_exp
+  chain_id: Int_comparison_exp
+  contract_name: String_comparison_exp
+  db_write_timestamp: timestamp_comparison_exp
+  event_id: numeric_comparison_exp
+  event_name: String_comparison_exp
+  log_index: Int_comparison_exp
+  params: jsonb_comparison_exp
+  serial: Int_comparison_exp
+  src_address: String_comparison_exp
+  transaction_fields: jsonb_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "raw_events".
+"""
+input raw_events_order_by {
+  block_fields: order_by
+  block_hash: order_by
+  block_number: order_by
+  block_timestamp: order_by
+  chain_id: order_by
+  contract_name: order_by
+  db_write_timestamp: order_by
+  event_id: order_by
+  event_name: order_by
+  log_index: order_by
+  params: order_by
+  serial: order_by
+  src_address: order_by
+  transaction_fields: order_by
+}
+
+"""
+select columns of table "raw_events"
+"""
+enum raw_events_select_column {
+  """
+  column name
+  """
+  block_fields
+  """
+  column name
+  """
+  block_hash
+  """
+  column name
+  """
+  block_number
+  """
+  column name
+  """
+  block_timestamp
+  """
+  column name
+  """
+  chain_id
+  """
+  column name
+  """
+  contract_name
+  """
+  column name
+  """
+  db_write_timestamp
+  """
+  column name
+  """
+  event_id
+  """
+  column name
+  """
+  event_name
+  """
+  column name
+  """
+  log_index
+  """
+  column name
+  """
+  params
+  """
+  column name
+  """
+  serial
+  """
+  column name
+  """
+  src_address
+  """
+  column name
+  """
+  transaction_fields
+}
+
+"""
+Streaming cursor of the table "raw_events"
+"""
+input raw_events_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: raw_events_stream_cursor_value_input!
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input raw_events_stream_cursor_value_input {
+  block_fields: jsonb
+  block_hash: String
+  block_number: Int
+  block_timestamp: Int
+  chain_id: Int
+  contract_name: String
+  db_write_timestamp: timestamp
+  event_id: numeric
+  event_name: String
+  log_index: Int
+  params: jsonb
+  serial: Int
+  src_address: String
+  transaction_fields: jsonb
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "Bundle"
+  """
+  Bundle(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Bundle_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Bundle_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Bundle_bool_exp
+  ): [Bundle!]!
+  """
+  fetch data from the table: "Bundle" using primary key columns
+  """
+  Bundle_by_pk(id: String!): Bundle
+  """
+  fetch data from the table in a streaming manner: "Bundle"
+  """
+  Bundle_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Bundle_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Bundle_bool_exp
+  ): [Bundle!]!
+  """
+  fetch data from the table: "Burn"
+  """
+  Burn(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Burn_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Burn_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Burn_bool_exp
+  ): [Burn!]!
+  """
+  fetch data from the table: "Burn" using primary key columns
+  """
+  Burn_by_pk(id: String!): Burn
+  """
+  fetch data from the table in a streaming manner: "Burn"
+  """
+  Burn_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Burn_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Burn_bool_exp
+  ): [Burn!]!
+  """
+  fetch data from the table: "Gauge"
+  """
+  Gauge(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Gauge_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Gauge_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Gauge_bool_exp
+  ): [Gauge!]!
+  """
+  fetch data from the table: "GaugePosition"
+  """
+  GaugePosition(
+    """
+    distinct select on columns
+    """
+    distinct_on: [GaugePosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [GaugePosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: GaugePosition_bool_exp
+  ): [GaugePosition!]!
+  """
+  fetch data from the table: "GaugePosition" using primary key columns
+  """
+  GaugePosition_by_pk(id: String!): GaugePosition
+  """
+  fetch data from the table in a streaming manner: "GaugePosition"
+  """
+  GaugePosition_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [GaugePosition_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: GaugePosition_bool_exp
+  ): [GaugePosition!]!
+  """
+  fetch data from the table: "Gauge" using primary key columns
+  """
+  Gauge_by_pk(id: String!): Gauge
+  """
+  fetch data from the table in a streaming manner: "Gauge"
+  """
+  Gauge_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Gauge_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Gauge_bool_exp
+  ): [Gauge!]!
+  """
+  fetch data from the table: "LiquidityManager"
+  """
+  LiquidityManager(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LiquidityManager_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LiquidityManager_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LiquidityManager_bool_exp
+  ): [LiquidityManager!]!
+  """
+  fetch data from the table: "LiquidityManager" using primary key columns
+  """
+  LiquidityManager_by_pk(id: String!): LiquidityManager
+  """
+  fetch data from the table in a streaming manner: "LiquidityManager"
+  """
+  LiquidityManager_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [LiquidityManager_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: LiquidityManager_bool_exp
+  ): [LiquidityManager!]!
+  """
+  fetch data from the table: "LiquidityPosition"
+  """
+  LiquidityPosition(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LiquidityPosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LiquidityPosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LiquidityPosition_bool_exp
+  ): [LiquidityPosition!]!
+  """
+  fetch data from the table: "LiquidityPosition" using primary key columns
+  """
+  LiquidityPosition_by_pk(id: String!): LiquidityPosition
+  """
+  fetch data from the table in a streaming manner: "LiquidityPosition"
+  """
+  LiquidityPosition_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [LiquidityPosition_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: LiquidityPosition_bool_exp
+  ): [LiquidityPosition!]!
+  """
+  fetch data from the table: "LockPosition"
+  """
+  LockPosition(
+    """
+    distinct select on columns
+    """
+    distinct_on: [LockPosition_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [LockPosition_order_by!]
+    """
+    filter the rows returned
+    """
+    where: LockPosition_bool_exp
+  ): [LockPosition!]!
+  """
+  fetch data from the table: "LockPosition" using primary key columns
+  """
+  LockPosition_by_pk(id: String!): LockPosition
+  """
+  fetch data from the table in a streaming manner: "LockPosition"
+  """
+  LockPosition_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [LockPosition_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: LockPosition_bool_exp
+  ): [LockPosition!]!
+  """
+  fetch data from the table: "Mint"
+  """
+  Mint(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Mint_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Mint_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Mint_bool_exp
+  ): [Mint!]!
+  """
+  fetch data from the table: "Mint" using primary key columns
+  """
+  Mint_by_pk(id: String!): Mint
+  """
+  fetch data from the table in a streaming manner: "Mint"
+  """
+  Mint_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Mint_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Mint_bool_exp
+  ): [Mint!]!
+  """
+  fetch data from the table: "NFPMLPMintTracker"
+  """
+  NFPMLPMintTracker(
+    """
+    distinct select on columns
+    """
+    distinct_on: [NFPMLPMintTracker_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [NFPMLPMintTracker_order_by!]
+    """
+    filter the rows returned
+    """
+    where: NFPMLPMintTracker_bool_exp
+  ): [NFPMLPMintTracker!]!
+  """
+  fetch data from the table: "NFPMLPMintTracker" using primary key columns
+  """
+  NFPMLPMintTracker_by_pk(id: String!): NFPMLPMintTracker
+  """
+  fetch data from the table in a streaming manner: "NFPMLPMintTracker"
+  """
+  NFPMLPMintTracker_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [NFPMLPMintTracker_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: NFPMLPMintTracker_bool_exp
+  ): [NFPMLPMintTracker!]!
+  """
+  fetch data from the table: "OverallDayData"
+  """
+  OverallDayData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [OverallDayData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [OverallDayData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: OverallDayData_bool_exp
+  ): [OverallDayData!]!
+  """
+  fetch data from the table: "OverallDayData" using primary key columns
+  """
+  OverallDayData_by_pk(id: String!): OverallDayData
+  """
+  fetch data from the table in a streaming manner: "OverallDayData"
+  """
+  OverallDayData_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [OverallDayData_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: OverallDayData_bool_exp
+  ): [OverallDayData!]!
+  """
+  fetch data from the table: "Pool"
+  """
+  Pool(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Pool_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Pool_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Pool_bool_exp
+  ): [Pool!]!
+  """
+  fetch data from the table: "PoolDayData"
+  """
+  PoolDayData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [PoolDayData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [PoolDayData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: PoolDayData_bool_exp
+  ): [PoolDayData!]!
+  """
+  fetch data from the table: "PoolDayData" using primary key columns
+  """
+  PoolDayData_by_pk(id: String!): PoolDayData
+  """
+  fetch data from the table in a streaming manner: "PoolDayData"
+  """
+  PoolDayData_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [PoolDayData_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: PoolDayData_bool_exp
+  ): [PoolDayData!]!
+  """
+  fetch data from the table: "PoolHourData"
+  """
+  PoolHourData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [PoolHourData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [PoolHourData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: PoolHourData_bool_exp
+  ): [PoolHourData!]!
+  """
+  fetch data from the table: "PoolHourData" using primary key columns
+  """
+  PoolHourData_by_pk(id: String!): PoolHourData
+  """
+  fetch data from the table in a streaming manner: "PoolHourData"
+  """
+  PoolHourData_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [PoolHourData_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: PoolHourData_bool_exp
+  ): [PoolHourData!]!
+  """
+  fetch data from the table: "Pool" using primary key columns
+  """
+  Pool_by_pk(id: String!): Pool
+  """
+  fetch data from the table in a streaming manner: "Pool"
+  """
+  Pool_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Pool_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Pool_bool_exp
+  ): [Pool!]!
+  """
+  fetch data from the table: "Statistics"
+  """
+  Statistics(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Statistics_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Statistics_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Statistics_bool_exp
+  ): [Statistics!]!
+  """
+  fetch data from the table: "Statistics" using primary key columns
+  """
+  Statistics_by_pk(id: String!): Statistics
+  """
+  fetch data from the table in a streaming manner: "Statistics"
+  """
+  Statistics_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Statistics_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Statistics_bool_exp
+  ): [Statistics!]!
+  """
+  fetch data from the table: "Swap"
+  """
+  Swap(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Swap_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Swap_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Swap_bool_exp
+  ): [Swap!]!
+  """
+  fetch data from the table: "Swap" using primary key columns
+  """
+  Swap_by_pk(id: String!): Swap
+  """
+  fetch data from the table in a streaming manner: "Swap"
+  """
+  Swap_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Swap_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Swap_bool_exp
+  ): [Swap!]!
+  """
+  fetch data from the table: "Token"
+  """
+  Token(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Token_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Token_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Token_bool_exp
+  ): [Token!]!
+  """
+  fetch data from the table: "TokenDayData"
+  """
+  TokenDayData(
+    """
+    distinct select on columns
+    """
+    distinct_on: [TokenDayData_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [TokenDayData_order_by!]
+    """
+    filter the rows returned
+    """
+    where: TokenDayData_bool_exp
+  ): [TokenDayData!]!
+  """
+  fetch data from the table: "TokenDayData" using primary key columns
+  """
+  TokenDayData_by_pk(id: String!): TokenDayData
+  """
+  fetch data from the table in a streaming manner: "TokenDayData"
+  """
+  TokenDayData_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [TokenDayData_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: TokenDayData_bool_exp
+  ): [TokenDayData!]!
+  """
+  fetch data from the table: "Token" using primary key columns
+  """
+  Token_by_pk(id: String!): Token
+  """
+  fetch data from the table in a streaming manner: "Token"
+  """
+  Token_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Token_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Token_bool_exp
+  ): [Token!]!
+  """
+  fetch data from the table: "Transaction"
+  """
+  Transaction(
+    """
+    distinct select on columns
+    """
+    distinct_on: [Transaction_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [Transaction_order_by!]
+    """
+    filter the rows returned
+    """
+    where: Transaction_bool_exp
+  ): [Transaction!]!
+  """
+  fetch data from the table: "Transaction" using primary key columns
+  """
+  Transaction_by_pk(id: String!): Transaction
+  """
+  fetch data from the table in a streaming manner: "Transaction"
+  """
+  Transaction_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [Transaction_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: Transaction_bool_exp
+  ): [Transaction!]!
+  """
+  fetch data from the table: "User"
+  """
+  User(
+    """
+    distinct select on columns
+    """
+    distinct_on: [User_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [User_order_by!]
+    """
+    filter the rows returned
+    """
+    where: User_bool_exp
+  ): [User!]!
+  """
+  fetch data from the table: "User" using primary key columns
+  """
+  User_by_pk(id: String!): User
+  """
+  fetch data from the table in a streaming manner: "User"
+  """
+  User_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [User_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: User_bool_exp
+  ): [User!]!
+  """
+  fetch data from the table: "chain_metadata"
+  """
+  chain_metadata(
+    """
+    distinct select on columns
+    """
+    distinct_on: [chain_metadata_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [chain_metadata_order_by!]
+    """
+    filter the rows returned
+    """
+    where: chain_metadata_bool_exp
+  ): [chain_metadata!]!
+  """
+  fetch data from the table: "chain_metadata" using primary key columns
+  """
+  chain_metadata_by_pk(chain_id: Int!): chain_metadata
+  """
+  fetch data from the table in a streaming manner: "chain_metadata"
+  """
+  chain_metadata_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [chain_metadata_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: chain_metadata_bool_exp
+  ): [chain_metadata!]!
+  """
+  fetch data from the table: "dynamic_contract_registry"
+  """
+  dynamic_contract_registry(
+    """
+    distinct select on columns
+    """
+    distinct_on: [dynamic_contract_registry_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [dynamic_contract_registry_order_by!]
+    """
+    filter the rows returned
+    """
+    where: dynamic_contract_registry_bool_exp
+  ): [dynamic_contract_registry!]!
+  """
+  fetch data from the table: "dynamic_contract_registry" using primary key columns
+  """
+  dynamic_contract_registry_by_pk(id: String!): dynamic_contract_registry
+  """
+  fetch data from the table in a streaming manner: "dynamic_contract_registry"
+  """
+  dynamic_contract_registry_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [dynamic_contract_registry_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: dynamic_contract_registry_bool_exp
+  ): [dynamic_contract_registry!]!
+  """
+  fetch data from the table: "end_of_block_range_scanned_data"
+  """
+  end_of_block_range_scanned_data(
+    """
+    distinct select on columns
+    """
+    distinct_on: [end_of_block_range_scanned_data_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [end_of_block_range_scanned_data_order_by!]
+    """
+    filter the rows returned
+    """
+    where: end_of_block_range_scanned_data_bool_exp
+  ): [end_of_block_range_scanned_data!]!
+  """
+  fetch data from the table: "end_of_block_range_scanned_data" using primary key columns
+  """
+  end_of_block_range_scanned_data_by_pk(
+    block_number: Int!
+    chain_id: Int!
+  ): end_of_block_range_scanned_data
+  """
+  fetch data from the table in a streaming manner: "end_of_block_range_scanned_data"
+  """
+  end_of_block_range_scanned_data_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [end_of_block_range_scanned_data_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: end_of_block_range_scanned_data_bool_exp
+  ): [end_of_block_range_scanned_data!]!
+  """
+  fetch data from the table: "event_sync_state"
+  """
+  event_sync_state(
+    """
+    distinct select on columns
+    """
+    distinct_on: [event_sync_state_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [event_sync_state_order_by!]
+    """
+    filter the rows returned
+    """
+    where: event_sync_state_bool_exp
+  ): [event_sync_state!]!
+  """
+  fetch data from the table: "event_sync_state" using primary key columns
+  """
+  event_sync_state_by_pk(chain_id: Int!): event_sync_state
+  """
+  fetch data from the table in a streaming manner: "event_sync_state"
+  """
+  event_sync_state_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [event_sync_state_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: event_sync_state_bool_exp
+  ): [event_sync_state!]!
+  """
+  fetch data from the table: "persisted_state"
+  """
+  persisted_state(
+    """
+    distinct select on columns
+    """
+    distinct_on: [persisted_state_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [persisted_state_order_by!]
+    """
+    filter the rows returned
+    """
+    where: persisted_state_bool_exp
+  ): [persisted_state!]!
+  """
+  fetch data from the table: "persisted_state" using primary key columns
+  """
+  persisted_state_by_pk(id: Int!): persisted_state
+  """
+  fetch data from the table in a streaming manner: "persisted_state"
+  """
+  persisted_state_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [persisted_state_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: persisted_state_bool_exp
+  ): [persisted_state!]!
+  """
+  fetch data from the table: "raw_events"
+  """
+  raw_events(
+    """
+    distinct select on columns
+    """
+    distinct_on: [raw_events_select_column!]
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [raw_events_order_by!]
+    """
+    filter the rows returned
+    """
+    where: raw_events_bool_exp
+  ): [raw_events!]!
+  """
+  fetch data from the table: "raw_events" using primary key columns
+  """
+  raw_events_by_pk(serial: Int!): raw_events
+  """
+  fetch data from the table in a streaming manner: "raw_events"
+  """
+  raw_events_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [raw_events_stream_cursor_input]!
+    """
+    filter the rows returned
+    """
+    where: raw_events_bool_exp
+  ): [raw_events!]!
+}
+
+scalar timestamp
+
+"""
+Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'.
+"""
+input timestamp_comparison_exp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
+  _is_null: Boolean
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
+}
+
+scalar timestamptz
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}

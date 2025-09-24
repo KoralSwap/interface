@@ -1,8 +1,8 @@
 "use client";
-import Image from "next/image";
+// import Image from "next/image";
 import React from "react";
-import reactor from "@/assets/reactor.svg";
-import { usePathname, useRouter } from "next/navigation";
+// import reactor from "@/assets/reactor.svg";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CustomConnectButton } from "./customConnectButton";
 import { useAccount } from "wagmi";
@@ -10,16 +10,17 @@ import SideNav from "./sideNav";
 
 export default function Header() {
   const { isConnected } = useAccount();
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <div className="h-[88px] px-2 lg:px-8 items-center flex justify-between lg:grid grid-cols-4">
-      <button
+      <div />
+      {/* <button
         className="hidden lg:block"
         role="link"
         onClick={() => router.push("/")}
       >
         <Image src={reactor} alt="" />
-      </button>
+      </button> */}
       <SideNav />
 
       <div className="col-span-2 hidden lg:block">

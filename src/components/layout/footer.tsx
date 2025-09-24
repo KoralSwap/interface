@@ -1,6 +1,6 @@
 import React from "react";
-import Reactor from "@/assets/reactor.svg";
-import Image from "next/image";
+// import Reactor from "@/assets/reactor.svg";
+// import Image from "next/image";
 import Link from "next/link";
 export default function Footer() {
   return (
@@ -8,12 +8,10 @@ export default function Footer() {
       <div className="mx-auto xl:w-[1400px]">
         <div className="grid grid-cols-5">
           <div className="flex flex-col col-span-2 justify-between">
-            <div>
-              <Image alt="logo" src={Reactor} />
-            </div>
+            <div>{/* <Image alt="logo" src={Reactor} /> */}</div>
             <div>
               <span className="text-[12px]">
-                2024 © Reactor Finance. All rights reserved.
+                2024 © KoralSwap. All rights reserved.
               </span>
             </div>
           </div>

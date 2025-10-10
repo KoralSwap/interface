@@ -27,7 +27,7 @@ import { useDebounce } from "@/lib/hooks/useDebounce";
 import useGetToken from "@/lib/hooks/useGetToken";
 import useCheckAllowance from "@/lib/hooks/useCheckAllowance";
 import useGrantApproval from "@/lib/hooks/useGrantApproval";
-import usePoolQueries from "@/lib/hooks/envio/usePoolQueries";
+import useKoralSwapAPI from "@/lib/hooks/useKoralSwapAPI";
 import { Card } from "@/components/ui/card";
 
 const SearchParamsSchema = z.object({
@@ -199,6 +199,7 @@ export default function AddLiquidityV2() {
     execute: executeAddLiquidity,
     isPending: addLiquidityPending,
     isSuccess: addLiquiditySuccess,
+    isError: addLiquidityError,
     reset: resetAddLP,
   } = useV2AddLiquidity({
     token0: asset0?.address ?? zeroAddress,
@@ -218,12 +219,15 @@ export default function AddLiquidityV2() {
       void token0AllowanceCheck.refresh();
       void token1AllowanceCheck.refresh();
     },
-    onError: (err) =>
+    onError: (err) => {
+      console.error(err);
+
       setToast({
         actionTitle: `Transaction failed: ${err.cause}`,
         actionDescription: "",
         toastType: "error",
-      }),
+      });
+    },
   });
   const { balance: balance0, refresh: refresh0 } = useGetBalance(
     asset0?.address,
@@ -264,10 +268,10 @@ export default function AddLiquidityV2() {
   }, [balance0, balance1, amount0Parsed, amount1Parsed]);
 
   const buttonState = useMemo(() => {
-    if (!token0AllowanceCheck.isAllowed || !token1AllowanceCheck.isAllowed)
-      return ButtonState.Approve;
-    else if (approval0Pending || approval1Pending || addLiquidityPending)
+    if (approval0Pending || approval1Pending || addLiquidityPending)
       return ButtonState.Loading;
+    else if (!token0AllowanceCheck.isAllowed || !token1AllowanceCheck.isAllowed)
+      return ButtonState.Approve;
     else return ButtonState.Default;
   }, [
     approval0Pending,
@@ -303,8 +307,8 @@ export default function AddLiquidityV2() {
     ]
   );
 
-  const { useQLGetSinglePool } = usePoolQueries();
-  const { data: QLSP, refetch: refetchQLSP } = useQLGetSinglePool(pair, 10000);
+  const { useGetPoolData } = useKoralSwapAPI();
+  const { poolData, refetch: refetchPoolData } = useGetPoolData(pair, 10000);
 
   // logic to set quote amounts to inputs
   useEffect(() => {
@@ -323,9 +327,14 @@ export default function AddLiquidityV2() {
   useEffect(() => {
     if (approval0Success || approval0Error) resetApproval0();
     if (approval1Success || approval1Error) resetApproval1();
-    if (addLiquiditySuccess) {
+    if (addLiquiditySuccess || addLiquidityError) {
       resetAddLP();
-      Promise.all([refresh0(), refresh1(), refreshLPBalance(), refetchQLSP()])
+      Promise.all([
+        refresh0(),
+        refresh1(),
+        refreshLPBalance(),
+        refetchPoolData(),
+      ])
         .then(() => console.info("Refreshed balances & pool"))
         .catch(console.error);
     }
@@ -341,10 +350,11 @@ export default function AddLiquidityV2() {
     resetApproval0,
     resetApproval1,
     resetAddLP,
-    refetchQLSP,
+    refetchPoolData,
+    addLiquidityError,
   ]);
   return (
-    <Card bg="1000" border="900" className="md:w-1/3 space-y-4 w-full">
+    <Card className="md:w-1/3 space-y-4 w-full bg-neutral-1000 border-neutral-900">
       <h2 className="text-xl">
         {pairExists ? "Add Liquidity" : "Initialize Pool"}
       </h2>{" "}
@@ -384,7 +394,7 @@ export default function AddLiquidityV2() {
           token1={token1}
         />
       )}
-      {pairExists && QLSP?.Pool_by_pk && (
+      {pairExists && poolData && (
         <>
           <div className="">
             <h5>Reserve Info</h5>
@@ -395,13 +405,16 @@ export default function AddLiquidityV2() {
                 <span>
                   <DisplayFormattedNumber
                     num={formatNumber(
-                      QLSP.Pool_by_pk.token0?.address.toLowerCase() ===
-                        convertETHToWETHIfApplicable(
-                          token0?.address ?? zeroAddress,
-                          chainId
-                        ).toLowerCase()
-                        ? QLSP.Pool_by_pk.reserve0
-                        : QLSP.Pool_by_pk.reserve1
+                      formatUnits(
+                        poolData.token0.toLowerCase() ===
+                          convertETHToWETHIfApplicable(
+                            token0?.address ?? zeroAddress,
+                            chainId
+                          ).toLowerCase()
+                          ? poolData.reserve0
+                          : poolData.reserve1,
+                        token0?.decimals ?? 18
+                      )
                     )}
                   />
                 </span>
@@ -411,13 +424,16 @@ export default function AddLiquidityV2() {
                 <span>
                   <DisplayFormattedNumber
                     num={formatNumber(
-                      QLSP.Pool_by_pk.token1?.address.toLowerCase() ===
-                        convertETHToWETHIfApplicable(
-                          token1?.address ?? zeroAddress,
-                          chainId
-                        ).toLowerCase()
-                        ? QLSP.Pool_by_pk.reserve1
-                        : QLSP.Pool_by_pk.reserve0
+                      formatUnits(
+                        poolData.token1.toLowerCase() ===
+                          convertETHToWETHIfApplicable(
+                            token1?.address ?? zeroAddress,
+                            chainId
+                          ).toLowerCase()
+                          ? poolData.reserve1
+                          : poolData.reserve0,
+                        token1?.decimals ?? 18
+                      )
                     )}
                   />
                 </span>

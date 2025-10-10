@@ -1,25 +1,39 @@
 "use client";
-import { LiquidityRow } from "./liquidityRow";
+import { LiquidityRowNative } from "./liquidityRowNative";
 import { useMemo, useState } from "react";
 import { LiquidityActions, StateType } from "../types";
 import usePadLoading from "@/lib/hooks/usePadLoading";
 import Spinner from "@/components/ui/spinner";
 import Link from "next/link";
-import usePoolQueries from "@/lib/hooks/envio/usePoolQueries";
-import { type LiquidityPosition } from "@/gql/graphql";
-import DashboardLiquidityDialog from "./dashboardLiquidityDialog/dashboardLiquidityDialog";
+import useKoralSwapAPI from "@/lib/hooks/useKoralSwapAPI";
+import DashboardLiquidityDialogNative from "./dashboardLiquidityDialog/dashboardLiquidityDialogNative";
 
 export default function DashboardLiquidityTable() {
-  // const chainId = useChainId();
-  // const queryClient = useQueryClient();
-  const { useQLGetAccountLPPositions } = usePoolQueries();
-  const { data: QLALP, isFetching: QLALPFetching } = useQLGetAccountLPPositions(
-    1000,
+  const { useGetAllPoolsData, useGetUserPositions } = useKoralSwapAPI();
+
+  // Get all pools first
+  const { pools: allPools, isFetching: poolsFetching } = useGetAllPoolsData(
+    100,
+    0,
     60000
   );
+
+  // Extract pool addresses
+  const poolAddresses = useMemo(
+    () => allPools.map((pool) => pool.pool),
+    [allPools]
+  );
+
+  // Get user positions
+  const { positions, isFetching: positionsFetching } = useGetUserPositions(
+    poolAddresses,
+    60000
+  );
+
   const activeLPs = useMemo(
-    () => (QLALP?.LiquidityPosition ? QLALP.LiquidityPosition : []),
-    [QLALP]
+    () =>
+      positions.filter((pos) => pos.liquidity > 0n || pos.stakedInGauge > 0n),
+    [positions]
   );
   const [selectedLPIndex, setSelectedLPIndex] = useState(0);
   const selectedLP = useMemo(
@@ -31,15 +45,25 @@ export default function DashboardLiquidityTable() {
     actionType: LiquidityActions.Stake,
   });
   const isLoadingPadded = usePadLoading({
-    value: QLALPFetching,
+    value: poolsFetching || positionsFetching,
     duration: 300,
   });
+
+  // Get pool data for each position
+  const positionsWithPoolData = useMemo(() => {
+    return activeLPs.map((position) => {
+      const poolData = allPools.find((pool) => pool.pool === position.pool);
+      return { position, poolData };
+    });
+  }, [activeLPs, allPools]);
+
   return (
     <>
       {stateType && selectedLP && (
-        <DashboardLiquidityDialog
+        <DashboardLiquidityDialogNative
           state={stateType}
-          position={selectedLP as LiquidityPosition}
+          position={selectedLP}
+          poolData={positionsWithPoolData[selectedLPIndex]?.poolData}
           onOpenChange={(isOpen) =>
             setStateType((s) => ({ ...s, dialogOpen: isOpen }))
           }
@@ -47,24 +71,24 @@ export default function DashboardLiquidityTable() {
       )}
       {!isLoadingPadded && activeLPs.length > 0 && (
         <div className="overflow-x-auto scroll-container">
-          <table className="w-full min-w-[1000px] pt-6 mx-auto">
+          <table className="w-full min-w-[1000px] pt-4 mx-auto">
             <caption className="h-0 opacity-0">Pools Table</caption>
-            <thead className="text-neutral-400 text-sm">
-              <tr className="grid grid-cols-7 px-6 py-2 font-medium">
-                <th className="col-span-2 text-left">Pool Name</th>
-                <th className=" ">Status</th>
-                <th className=" ">Value</th>
-                <th className=" ">APR</th>
-                <th className=" ">Rewards</th>
+            <thead className="text-neutral-400 text-xs font-semibold uppercase tracking-wider">
+              <tr className="grid grid-cols-6 px-6 py-4 border-b border-neutral-900">
+                <th className="col-span-2 text-left">Pool</th>
+                <th className="text-center">Stake Status</th>
+                <th className="text-center">Token0 Deposited</th>
+                <th className="text-center">Token1 Deposited</th>
                 <th></th>
               </tr>
             </thead>
-            <tbody className="flex flex-col space-y-2 min-h-[52px]">
+            <tbody className="flex flex-col space-y-3 min-h-[52px] pt-4">
               {!isLoadingPadded &&
-                activeLPs.map((lp, index) => (
-                  <LiquidityRow
-                    key={lp.id}
-                    data={lp as LiquidityPosition}
+                positionsWithPoolData.map(({ position, poolData }, index) => (
+                  <LiquidityRowNative
+                    key={position.pool}
+                    data={position}
+                    poolData={poolData}
                     onItemClick={(actionType) => {
                       setSelectedLPIndex(index);
                       setStateType({ actionType, dialogOpen: true });
@@ -81,15 +105,20 @@ export default function DashboardLiquidityTable() {
         </div>
       )}
       {!activeLPs.length && !isLoadingPadded && (
-        <div className="text-start text-sm rounded-sm bg-neutral-1000 font-normal text-neutral-400 p-4">
-          To receive emissions{" "}
-          <Link
-            href="/liquidity/deposit"
-            className="underline decoration-gray-500 font-semibold cursor-pointer text-white"
-          >
-            deposit and stake
-          </Link>{" "}
-          your liquidity first.
+        <div className="text-center text-sm rounded-lg border border-neutral-900 bg-neutral-1000/30 p-10 md:p-12 mt-4">
+          <p className="text-neutral-400 mb-3 text-base">
+            No liquidity positions found
+          </p>
+          <p className="text-sm text-neutral-500">
+            To receive emissions{" "}
+            <Link
+              href="/liquidity/deposit"
+              className="text-blue-400 hover:text-blue-300 font-semibold transition-colors underline"
+            >
+              deposit and stake
+            </Link>{" "}
+            your liquidity first.
+          </p>
         </div>
       )}
     </>

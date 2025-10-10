@@ -28,7 +28,7 @@ export default function AssetCard({
     [balance, token.decimals]
   );
   return (
-    <Card border="900" className="py-3 rounded-md px-4 space-y-2 w-full">
+    <Card className="py-3 rounded-md px-4 space-y-2 w-full border-neutral-900">
       <div className="flex justify-between w-full">
         <div className="flex items-center">
           <Input

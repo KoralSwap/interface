@@ -2,44 +2,48 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
-const cardVariants = cva("", {
+
+const cardVariants = cva("rounded-xl border transition-all duration-200", {
   variants: {
-    bg: {
-      "1050": "bg-neutral-1050",
-      "1000": "bg-neutral-1000",
-      "950": "bg-neutral-950",
-      "900": "bg-neutral-900",
-      "800": "bg-neutral-800",
-      "700": "bg-neutral-700",
-      none: "",
+    variant: {
+      default: "border-neutral-900 bg-neutral-1000/50 backdrop-blur-sm",
+      elevated: "border-neutral-900 bg-neutral-950 shadow-lg",
+      glass: "border-neutral-900/50 bg-neutral-1000/30 backdrop-blur-xl",
+      gradient:
+        "border-blue-500/30 bg-gradient-mesh shadow-lg shadow-blue-500/10",
+      outline: "border-neutral-900 bg-transparent",
+      solid: "border-neutral-900 bg-neutral-1000",
     },
-    border: {
-      "1050": "border border-neutral-1050",
-      "1000": "border border-neutral-1000",
-      "950": "border border-neutral-950",
-      "900": "border border-neutral-900",
-      "800": "border border-neutral-800",
-      "700": "border border-neutral-700",
+    hover: {
       none: "",
-    },
-    rounded: {
-      md: "rounded-md",
+      lift: "hover:scale-[1.02] hover:shadow-xl",
+      glow: "hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20",
+      both: "hover:scale-[1.02] hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/20",
     },
     p: {
-      "4": "p-4",
-      "6": "p-6",
+      none: "p-0",
+      sm: "p-4",
+      md: "p-6",
+      lg: "p-8",
+      xl: "p-10",
     },
   },
-  defaultVariants: { rounded: "md", p: "4", border: "none", bg: "none" },
+  defaultVariants: {
+    variant: "default",
+    hover: "none",
+    p: "md",
+  },
 });
+
 export interface CardProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {}
+
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, p, border, bg, rounded, ...props }, ref) => (
+  ({ className, variant, hover, p, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(cardVariants({ p, rounded, className, border, bg }))}
+      className={cn(cardVariants({ variant, hover, p, className }))}
       {...props}
     />
   )
@@ -52,7 +56,7 @@ const CardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    className={cn("flex flex-col space-y-1.5", className)}
     {...props}
   />
 ));
@@ -65,7 +69,7 @@ const CardTitle = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
+      "text-xl font-bold leading-none tracking-tight text-white",
       className
     )}
     {...props}
@@ -79,7 +83,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-sm text-neutral-400", className)}
     {...props}
   />
 ));
@@ -89,7 +93,7 @@ const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn(" pt-0", className)} {...props} />
+  <div ref={ref} className={cn("", className)} {...props} />
 ));
 CardContent.displayName = "CardContent";
 
@@ -97,11 +101,7 @@ const CardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center pt-0", className)}
-    {...props}
-  />
+  <div ref={ref} className={cn("flex items-center", className)} {...props} />
 ));
 CardFooter.displayName = "CardFooter";
 
@@ -112,4 +112,5 @@ export {
   CardTitle,
   CardDescription,
   CardContent,
+  cardVariants,
 };

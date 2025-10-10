@@ -19,7 +19,8 @@ function ConnectView() {
           Connect your wallet
         </h1>
         <p className="text-neutral-400 text-sm lg:text-[16px] text-center">
-          Log in to access world-class DeFi experience
+          Connect your wallet to access seamless DeFi trading and liquidity
+          management
         </p>
         <Button
           size="md"

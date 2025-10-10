@@ -6,13 +6,13 @@ import {
   darkTheme,
 } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { monadTestnet } from "wagmi/chains";
 import { hashFn } from "@wagmi/core/query";
 import { FC, PropsWithChildren } from "react";
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { TRPCReactProvider } from "@/trpc/react";
 import { TokenlistContextProvider } from "@/contexts/tokenlistContext";
 import { TransactionToastProvider } from "@/contexts/transactionToastProvider";
+import { konet } from "@/lib/chains/konet";
 import {
   injectedWallet,
   metaMaskWallet,
@@ -55,7 +55,7 @@ const connectors = connectorsForWallets(
     },
   ],
   {
-    appName: "ReactorFi",
+    appName: "KoralSwap",
     projectId: "75ec6bc09b1280c146d750fbb7aae68a",
   }
 );
@@ -63,9 +63,9 @@ const connectors = connectorsForWallets(
 export const wagmiConfig = createConfig({
   connectors,
   ssr: true,
-  chains: [monadTestnet],
+  chains: [konet],
   transports: {
-    [monadTestnet.id]: http("https://testnet-rpc.monad.xyz"),
+    [konet.id]: http("https://api.kon-wallet.com"),
   },
 });
 const queryClient = new QueryClient({

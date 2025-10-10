@@ -8,8 +8,10 @@ export function Table({ children }: { children: React.ReactNode }) {
 
 export function TableHead({ children }: { children: React.ReactNode }) {
   return (
-    <thead className="text-neutral-400 text-sm text-right w-full">
-      <tr className=" grid grid-cols-11 gap-x-4 px-4">{children}</tr>
+    <thead className="text-neutral-400 text-xs font-semibold uppercase tracking-wider text-right w-full">
+      <tr className="grid grid-cols-11 gap-x-4 px-6 pb-3 border-b border-neutral-900">
+        {children}
+      </tr>
     </thead>
   );
 }
@@ -27,10 +29,11 @@ export const TableBody = forwardRef<
 TableBody.displayName = "TableBody";
 
 const tableVariants = cva(
-  "grid hover:border-[#43444C] border transition-colors border-transparent items-center group text-sm text-right gap-x-4 py-[10px] bg-neutral-1000 px-4 rounded-md",
+  "grid border transition-all duration-200 border-neutral-900 items-center group text-sm text-right gap-x-4 py-4 bg-neutral-1000/50 px-6 rounded-lg hover:border-blue-500/30 hover:bg-neutral-1000 hover:shadow-md hover:shadow-blue-500/5",
   {
     variants: {
       cols: {
+        "12": "lg:grid-cols-12",
         "11": "lg:grid-cols-11",
         "10": "lg:grid-cols-10",
         "9": "lg:grid-cols-9",
@@ -43,6 +46,7 @@ const tableVariants = cva(
         "2": "lg:grid-cols-2",
       },
       mobileCols: {
+        "12": "grid-cols-12",
         "11": "grid-cols-11",
         "10": "grid-cols-10",
         "9": "grid-cols-9",

@@ -5,7 +5,7 @@ import { ChainId, ETHER, WETH } from "@/data/constants";
 import { Address } from "viem";
 
 export function wmonToMon(addr: Address) {
-  if (addr.toLowerCase() === WETH[ChainId.MONAD_TESTNET].toLowerCase()) {
+  if (addr.toLowerCase() === WETH[ChainId.KONET].toLowerCase()) {
     return ETHER.toLowerCase() as Address;
   } else {
     return addr;

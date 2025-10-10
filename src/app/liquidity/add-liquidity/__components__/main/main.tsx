@@ -1,16 +1,14 @@
 "use client";
-import { Card } from "@/components/ui/card";
 import React, { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { isAddress } from "viem";
-import AddLiquidityV3 from "./addLiquidityV3";
 import AddLiquidityV2 from "./addLiquidityV2";
 
 const searchParamsSchema = z.object({
   token0: z.string().refine((arg) => isAddress(arg)),
   token1: z.string().refine((arg) => isAddress(arg)),
-  version: z.enum(["stable", "volatile", "concentrated"]),
+  version: z.enum(["stable", "volatile"]),
 });
 
 export default function LiquidityCard() {
@@ -35,13 +33,8 @@ export default function LiquidityCard() {
   }, [params]);
 
   return !token0 || !token1 ? undefined : (
-    <Card className="p-1 rounded-md w-full flex justify-center items-center">
-      {/* {version === "concentrated" && <AddLiquidityCardV3 />} */}
-      {version === "stable" || version === "volatile" ? (
-        <AddLiquidityV2 />
-      ) : version === "concentrated" ? (
-        <AddLiquidityV3 />
-      ) : undefined}
-    </Card>
+    <>
+      {(version === "stable" || version === "volatile") && <AddLiquidityV2 />}
+    </>
   );
 }

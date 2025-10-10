@@ -11,7 +11,7 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import { z } from "zod";
 
 const searchParamsSchema = z.object({
-  version: z.enum(["stable", "volatile", "concentrated"]),
+  version: z.enum(["stable", "volatile"]),
 });
 
 function covertToPoolType(version: string) {
@@ -20,8 +20,6 @@ function covertToPoolType(version: string) {
       return TPoolType.STABLE;
     case "volatile":
       return TPoolType.VOLATILE;
-    case "concentrated":
-      return TPoolType.CONCENTRATED;
   }
 }
 export default function PoolTabs() {
@@ -68,12 +66,6 @@ export default function PoolTabs() {
           "add-liquidity?" + createQueryString("version", "volatile"),
           { scroll: false }
         );
-      } else if (poolType === TPoolType.CONCENTRATED) {
-        router.push(
-          "add-liquidity?" + createQueryString("version", "concentrated"),
-
-          { scroll: false }
-        );
       }
     },
     [createQueryString, router]
@@ -99,18 +91,6 @@ export default function PoolTabs() {
             >
               {windowWidth < 601 ? "V" : "Volatile"}
             </TabsTrigger>
-            <TabsTrigger
-              onClick={() => tabTriggerHandle(TPoolType.CONCENTRATED)}
-              value="concentrated"
-            >
-              {windowWidth < 601 ? "C" : "Concentrated"}
-            </TabsTrigger>
-            {/* <TabsTrigger */}
-            {/*   onClick={() => tabTriggerHandle(TPoolType.CONCENTRATED)} */}
-            {/*   value="concentrated" */}
-            {/* > */}
-            {/*   Concentrated */}
-            {/* </TabsTrigger> */}
           </TabsList>
         </Tabs>
         <button className="flex items-center">

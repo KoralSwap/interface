@@ -27,7 +27,7 @@ export function inputPatternNumberMatch(s: string, decimals = 18) {
 
 export function convertWETHToPlainETHIfApplicable(
   address: Address,
-  chainId: number = ChainId.MONAD_TESTNET
+  chainId: number = ChainId.KONET
 ) {
   return address.toLowerCase() === WETH[chainId].toLowerCase()
     ? ETHER
@@ -36,7 +36,7 @@ export function convertWETHToPlainETHIfApplicable(
 
 export function convertETHToWETHIfApplicable(
   address: Address,
-  chainId: number = ChainId.MONAD_TESTNET
+  chainId: number = ChainId.KONET
 ) {
   return address.toLowerCase() === ETHER.toLowerCase()
     ? WETH[chainId]

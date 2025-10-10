@@ -5,29 +5,47 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-block  items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors" +
-    " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-opacity-60 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-200" +
+    " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background" +
+    " disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         primary:
-          "bg-primary-500 hover:bg-primary-400 text-white disabled:data-[pending=true]:bg-neutral-900 disabled:data-[pending=true]:text-neutral-100  disabled:text-neutral-300 disabled:bg-neutral-95 active:data-[pending=true]:bg-primary-400/50 active:data-[pending=true]:text-neutral-100  active:text-neutral-300 active:bg-neutral-95",
+          "bg-gradient-primary text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 active:scale-100" +
+          " disabled:bg-neutral-900 disabled:text-neutral-500 disabled:shadow-none",
+        secondary:
+          "bg-neutral-1000 text-white border border-neutral-900 hover:bg-neutral-950 hover:border-blue-500/50" +
+          " active:bg-neutral-900",
         outline:
-          "border border-neutral-900 text-neutral-100 hover:bg-neutral-900",
+          "border-2 border-neutral-900 text-neutral-100 bg-transparent hover:bg-neutral-1000 hover:border-blue-500/50" +
+          " active:bg-neutral-950",
         filled:
-          "border border-neutral-950 text-white hover:bg-neutral-950 bg-neutral-1000",
+          "border border-neutral-950 text-white hover:bg-neutral-950 bg-neutral-1000 hover:border-neutral-900" +
+          " active:bg-neutral-900",
+        ghost:
+          "text-neutral-300 hover:bg-neutral-1000 hover:text-white active:bg-neutral-950",
+        gradient:
+          "bg-gradient-accent text-white shadow-md shadow-cyan-400/20 hover:shadow-lg hover:shadow-cyan-400/30 hover:scale-105 active:scale-100",
+        destructive:
+          "bg-error-500 text-white hover:bg-error-600 shadow-md shadow-error-500/20 hover:shadow-lg hover:shadow-error-500/30",
+        success:
+          "bg-success-500 text-white hover:bg-success-600 shadow-md shadow-success-500/20 hover:shadow-lg hover:shadow-success-500/30",
       },
       size: {
-        sm: "py-xxs px-sm rounded-md  text-[12px] leading-[16px] font-medium",
-        xs: "py-xs px-xxs rounded-sm  text-[12px] leading-[12px] font-medium",
-        xss: "py-[2px] px-xs rounded-sm  text-[12px] leading-[12px] font-medium",
-        md: "px-4 rounded-md text-md leading-[20px] py-[10px]",
-        submit: "py-3 w-full text-[16px] 2xl:text-[18px]  ",
+        xs: "h-8 px-3 py-2 text-xs rounded-md",
+        sm: "h-10 px-4 py-2.5 text-sm rounded-md",
+        md: "h-11 px-5 py-3 text-sm rounded-lg",
+        lg: "h-12 px-7 py-3.5 text-base rounded-lg",
+        xl: "h-14 px-9 py-4 text-lg rounded-xl",
+        icon: "h-10 w-10 p-2 rounded-lg",
+        "icon-sm": "h-8 w-8 p-1.5 rounded-md",
+        "icon-lg": "h-12 w-12 p-3 rounded-xl",
       },
     },
     defaultVariants: {
-      variant: "outline",
-      size: "sm",
+      variant: "primary",
+      size: "md",
     },
   }
 );
@@ -43,8 +61,9 @@ export interface ButtonProps
  *
  * Style Props:
  * - `className` (string): Additional custom class names to apply to the button.
- * - `variant` (string): Defines the visual style of the button. Options are:
- * - `size` (string): Defines the size of the button. Options are:
+ * - `variant` (string): Defines the visual style of the button. Options: primary, secondary, outline, filled, ghost, gradient, destructive, success
+ * - `size` (string): Defines the size of the button. Options: xs, sm, md, lg, xl, icon, icon-sm, icon-lg
+ * - `asChild` (boolean): If true, the button will be rendered as its child element (useful for Link components)
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {

@@ -8,57 +8,66 @@ export const RCT_DECIMALS = 18;
 export const HUNDRED_PERCENT_BN = 10000n;
 
 export enum ChainId {
-  MONAD_TESTNET = 10143,
+  KONET = 17217,
 }
 export const PAIR_FACTORY: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0x22595aA7f5298b49D62450DA6300882Fb3d98eBc",
+  [ChainId.KONET]: "0x025D63C45Baa11cFC1174a80139b29B891d693dC",
 };
 export const VOTER: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xc31d18ba3a85CAe6031549fC59E522Cfc59Ba7e0",
+  [ChainId.KONET]: "0xAE5fEBDDCddE9bA917a163A7976B58B7edE07E53",
 };
 export const V2_FACTORY: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0x6dFdF83AFfD62E4BF55dB0BF4bd816e3ccaCb963",
+  [ChainId.KONET]: "0x025D63C45Baa11cFC1174a80139b29B891d693dC",
 };
 export const CL_FACTORY: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xebd565DbDeaFff470aeE844bD0F84210c5D26c9E",
+  [ChainId.KONET]: "0xebd565DbDeaFff470aeE844bD0F84210c5D26c9E",
 };
 export const V2_ROUTER: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0x30a2b77Bf611Fc0428fe35123855CeDf0cfC6474",
+  [ChainId.KONET]: "0x9CdC35e63C79c0e83f656929aD52CC9fc02EA3B4",
 };
 export const CL_SWAP_ROUTER: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xDFb2e3aBE9A81241e133B42334c3Ce785A87902C",
+  [ChainId.KONET]: "0xDFb2e3aBE9A81241e133B42334c3Ce785A87902C",
 };
 export const CL_SWAP_FEE_RECIPIENT: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
+  [ChainId.KONET]: "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
 };
 export const NFT_POSITION_MANAGER: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0x2a4440dF3351Bac4e7cb8b1D12E07f004aBc3372",
+  [ChainId.KONET]: "0x2a4440dF3351Bac4e7cb8b1D12E07f004aBc3372",
 };
 export const CL_QUOTER: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xB3C58E55d6F57A8fc5F36052238a0C8714b2C9f2",
+  [ChainId.KONET]: "0xB3C58E55d6F57A8fc5F36052238a0C8714b2C9f2",
 };
 export const WETH: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701",
+  [ChainId.KONET]: "0x3325Ca3cE314bcf8bA9242BDE800B3FAdb2C7045",
 };
 export const ORACLE: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0x5caa9d7fac6ef9ff9f50b95008ffb9f6299e8bcd",
+  [ChainId.KONET]: "0x5caa9d7fac6ef9ff9f50b95008ffb9f6299e8bcd",
 };
 export const VE: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xc645D50D0868a68a75c8cA81dCA6A6c2361309B3",
+  [ChainId.KONET]: "0xFF27C17C0A69B59251577799f0cefCEB97Eef83f",
 };
 export const RCT: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xc503424cE6D9A1D452D620CdD0c3C419D5fcB735",
+  [ChainId.KONET]: "0xc503424cE6D9A1D452D620CdD0c3C419D5fcB735",
+};
+export const KORAL: { [key: number]: `0x${string}` } = {
+  [ChainId.KONET]: "0x34D9a3E8B5Df4DEdB388EB14b7416f76BFFf4E6f",
+};
+export const MINTER: { [key: number]: `0x${string}` } = {
+  [ChainId.KONET]: "0x37DFf145c269cDC873faf9f4cc07ec1EF76F6eAc",
 };
 export const DISTRIBUTOR: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xFD9795E64B0C2220895273716f7A6cc59F571618",
+  [ChainId.KONET]: "0x2029D75a293D87011F79265c6cbFaFFA47A9406C",
 };
 export const VAS: { [key: number]: `0x${string}` } = {
-  [ChainId.MONAD_TESTNET]: "0xe0C2aC5716da69382a3ba3C20E43b91Ada068Fb6",
+  [ChainId.KONET]: "0xe0C2aC5716da69382a3ba3C20E43b91Ada068Fb6",
+};
+export const KORAL_SWAP_API: { [key: number]: `0x${string}` } = {
+  [ChainId.KONET]: "0xccb858BA90e6d4EFC41cB91d71f8E4f38C4aB8A8",
 };
 export const ETHER = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
 // Explorer links
 export const EXPLORERS: { [key: number]: string } = {
-  [ChainId.MONAD_TESTNET]: "https://testnet.monadexplorer.com",
+  [ChainId.KONET]: "https://konetexplorer.io",
 };
 
 export const STRINGS = {

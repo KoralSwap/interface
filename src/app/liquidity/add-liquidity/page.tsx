@@ -8,13 +8,13 @@ import LiquidityCardWrapper from "./__components__/liquidityCardWrapper";
 
 export default function Page() {
   return (
-    <PageMarginContainer className="container">
-      <div className="flex justify-between">
+    <PageMarginContainer className="container px-4">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
         <div>
           <div>
             <Link
               href="/liquidity"
-              className="flex text-[14px] gap-x-2 items-center"
+              className="flex text-sm gap-x-2 items-center hover:text-primary-400 transition-colors"
             >
               <span>
                 <ChevronLeft className="w-5 h-5" />
@@ -28,9 +28,13 @@ export default function Page() {
           </Headers.GradiantHeaderOne>
         </div>
 
-        <PoolTabs />
+        <div className="sm:self-start">
+          <PoolTabs />
+        </div>
       </div>
-      <LiquidityCardWrapper />
+      <div className="mt-8 sm:mt-12">
+        <LiquidityCardWrapper />
+      </div>
     </PageMarginContainer>
   );
 }

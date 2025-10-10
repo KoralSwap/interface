@@ -1,10 +1,8 @@
 import { ContractsAbi } from "./abis/contractsAbi";
 import { env } from "@/env";
-import { monadTestnet } from "./abis/monadTestnet";
 
 const ABIs = {
   PRIVATE_NET: ContractsAbi,
-  TESTNET: monadTestnet,
   PROD: ContractsAbi,
 };
 
@@ -12,13 +10,10 @@ const getContracts = () => {
   if (env.NEXT_PUBLIC_CONTRACTS === "PRIVATE_NET") {
     return ABIs.PRIVATE_NET;
   }
-  if (env.NEXT_PUBLIC_CONTRACTS === "TESTNET") {
-    return ABIs.TESTNET;
-  }
   if (env.NEXT_PUBLIC_CONTRACTS === "PROD") {
     return ABIs.PROD;
   }
-  return ABIs.PRIVATE_NET;
+  return ABIs.PROD;
 };
 const EnvContracts = getContracts();
 export const Contracts = {

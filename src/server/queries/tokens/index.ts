@@ -15,7 +15,7 @@ export async function getTokenlist(chainId: number) {
   );
   const { data } = await octokit.rest.repos.getContent({
     repo,
-    owner: "Reactor-Finance",
+    owner: "KoralSwap",
     path,
   });
 

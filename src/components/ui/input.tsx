@@ -1,33 +1,39 @@
 import { cn } from "@/lib/utils";
-export { Input };
 import React from "react";
 import { VariantProps, cva } from "class-variance-authority";
 
 const inputVariants = cva(
-  `flex h-10 w-full rounded-md border border-input bg-background
-   px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent
-   file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground
-   focus-visible:outline-none   disabled:cursor-not-allowed disabled:opacity-50 md:text-sm outline-none`,
+  `flex h-12 w-full rounded-lg border px-4 py-3 text-base transition-all duration-200
+   file:border-0 file:bg-transparent file:text-sm file:font-medium
+   placeholder:text-neutral-500 
+   focus-visible:outline-none
+   disabled:cursor-not-allowed disabled:opacity-50`,
   {
     variants: {
-      ring: {
-        none: "",
-        ringOne: `focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2`,
-      },
       variant: {
-        transparent: "bg-transparent ring-0 border-none",
-        neutral: "bg-neutral-950",
+        default:
+          "border-neutral-900 bg-neutral-1000 text-white hover:border-neutral-800 focus:border-blue-500/50",
+        filled:
+          "border-neutral-950 bg-neutral-950 text-white hover:bg-neutral-900 focus:bg-neutral-900 focus:border-blue-500/50",
+        ghost:
+          "border-transparent bg-transparent text-white hover:bg-neutral-1000 focus:bg-neutral-1000 focus:border-blue-500/50",
+        outline:
+          "border-2 border-neutral-900 bg-transparent text-white hover:border-neutral-800 focus:border-blue-500",
       },
-      textSize: {
-        sm: "md:text-sm md:placeholder:text-sm",
-        md: "md:text-md md:placeholder:text-md",
-        lg: "md:text-lg md:placeholder:text-lg",
-        xl: "md:text-xl md:placeholder:text-xl",
-        ["2xl"]: "md:text-2xl md:placeholder:text-2xl",
+      inputSize: {
+        sm: "h-9 px-3 py-2 text-sm rounded-md",
+        md: "h-12 px-4 py-3 text-base rounded-lg",
+        lg: "h-14 px-5 py-4 text-lg rounded-xl",
+      },
+      error: {
+        true: "border-error-500 focus:border-error-500 focus:ring-error-500",
+        false: "",
       },
     },
     defaultVariants: {
-      ring: "none",
+      variant: "default",
+      inputSize: "md",
+      error: false,
     },
   }
 );
@@ -35,19 +41,20 @@ const inputVariants = cva(
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {}
+
 /**
- * Input
- * Style props -
- * Variant
- * textSize
- * ring
- **/
+ * Input component with KONET-inspired styling
+ *
+ * Props:
+ * - variant: default, filled, ghost, outline
+ * - inputSize: sm, md, lg
+ * - error: boolean to show error state
+ */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, ring, variant, textSize, ...props }, ref) => {
+  ({ className, variant, inputSize, error, ...props }, ref) => {
     return (
       <input
-        type="text"
-        className={cn(inputVariants({ variant, ring, textSize }), className)}
+        className={cn(inputVariants({ variant, inputSize, error }), className)}
         ref={ref}
         {...props}
       />
@@ -57,4 +64,5 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "Input";
 
+export { Input, inputVariants };
 export default Input;

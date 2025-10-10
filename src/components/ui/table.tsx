@@ -61,7 +61,7 @@ const tableVariants = cva(
     },
     defaultVariants: { cols: "11", mobileCols: "11" },
   }
-) as const;
+);
 interface TableRowProps
   extends React.HTMLAttributes<HTMLTableRowElement>,
     VariantProps<typeof tableVariants> {}

@@ -12,13 +12,13 @@ import {
   Droplets,
   BarChart3,
   Coins,
+  Sparkles,
 } from "lucide-react";
 import Image from "next/image";
 import reactor from "@/assets/reactor.svg";
 
 export default function Page() {
   const { isConnected } = useAccount();
-  const router = useRouter();
 
   if (isConnected) {
     return <ConnectedHome />;
@@ -67,7 +67,7 @@ function LandingPage() {
           {/* Subtitle */}
           <p className="mb-10 max-w-2xl text-lg text-neutral-300 lg:text-xl">
             Experience lightning-fast swaps, deep liquidity, and sustainable
-            yields on Konet Chain's premier decentralized exchange.
+            yields on Konet Chain&apos;s premier decentralized exchange.
           </p>
 
           {/* CTA Buttons */}
@@ -190,7 +190,7 @@ function LandingPage() {
               Ready to Start Trading?
             </h2>
             <p className="mb-10 text-lg text-neutral-300">
-              Join thousands of traders on Konet Chain's premier DEX
+              Join thousands of traders on Konet Chain&apos;s premier DEX
             </p>
             <Button
               size="lg"

@@ -41,7 +41,7 @@ function InfoCard({
   icon: StaticImageData;
 }) {
   return (
-    <Card bg="950" className="py-[10px] px-4 rounded-lg">
+    <Card className="py-[10px] px-4 rounded-lg bg-neutral-950">
       <div className="flex justify-between items-center">
         <div>
           <h4 className="text-primary-400 text-sm">{title}</h4>

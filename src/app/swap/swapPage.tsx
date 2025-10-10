@@ -1,4 +1,3 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import SwapView from "./__components__/swapView";
 import PageMarginContainer from "@/components/ui/pageMarginContainer";

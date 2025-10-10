@@ -35,7 +35,7 @@ export default function Stable() {
         {/* /> */}
       </div>
       <StableStats />
-      <Button variant="primary" disabled size="submit">
+      <Button variant="primary" disabled size="lg" className="w-full">
         Add Liquidity
       </Button>
     </>
@@ -44,11 +44,7 @@ export default function Stable() {
 
 function StableInfo() {
   return (
-    <Card
-      className="grid text-sm grid-cols-3 py-2 px-4 items-center rounded-md"
-      bg="950"
-      border="900"
-    >
+    <Card className="grid text-sm grid-cols-3 py-2 px-4 items-center rounded-md bg-neutral-950 border-neutral-900">
       <div className="">
         <h1 className="text-neutral-300">APR</h1>
         <h2>0%</h2>

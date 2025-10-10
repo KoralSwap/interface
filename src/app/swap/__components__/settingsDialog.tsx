@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import Input from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -120,7 +119,7 @@ export default function SettingsDialog({
                   max={100}
                   type="number"
                   placeholder="Custom"
-                  variant="transparent"
+                  variant="ghost"
                   onFocus={() => updateState({ slippageFocus: true })}
                   onBlur={() => updateState({ slippageFocus: false })}
                   onChange={(e) => {

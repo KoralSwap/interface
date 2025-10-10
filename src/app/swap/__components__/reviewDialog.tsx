@@ -33,7 +33,8 @@ export default function ReviewDialog() {
         <Button
           onClick={() => setOpen(false)}
           variant={"primary"}
-          size="submit"
+          size="lg"
+          className="w-full"
         >
           Close
         </Button>

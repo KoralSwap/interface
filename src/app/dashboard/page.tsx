@@ -55,9 +55,8 @@ export default function Dashboard() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
               <CardTitle className="flex items-center gap-2">
                 <Droplets
-                  className="text-blue-400"
+                  className="text-blue-400 w-5 h-5 sm:w-6 sm:h-6"
                   size={20}
-                  className="sm:w-6 sm:h-6"
                 />
                 <span className="text-lg sm:text-xl">Liquidity Positions</span>
               </CardTitle>

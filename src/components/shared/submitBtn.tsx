@@ -4,7 +4,6 @@ import React, { useMemo } from "react";
 import { useAccount } from "wagmi";
 import { Button, ButtonProps } from "../ui/button";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import Spinner from "../ui/spinner";
 import { Loader2 } from "lucide-react";
 
 export enum ButtonState {

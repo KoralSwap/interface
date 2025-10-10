@@ -3,6 +3,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
 
+// Extended Card component with backward compatibility for 'bg' prop
+
 const cardVariants = cva("rounded-xl border transition-all duration-200", {
   variants: {
     variant: {
@@ -13,6 +15,15 @@ const cardVariants = cva("rounded-xl border transition-all duration-200", {
         "border-blue-500/30 bg-gradient-mesh shadow-lg shadow-blue-500/10",
       outline: "border-neutral-900 bg-transparent",
       solid: "border-neutral-900 bg-neutral-1000",
+    },
+    bg: {
+      "1050": "bg-neutral-1050",
+      "1000": "bg-neutral-1000",
+      "950": "bg-neutral-950",
+      "900": "bg-neutral-900",
+      "800": "bg-neutral-800",
+      "700": "bg-neutral-700",
+      none: "",
     },
     hover: {
       none: "",
@@ -40,10 +51,10 @@ export interface CardProps
     VariantProps<typeof cardVariants> {}
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, hover, p, ...props }, ref) => (
+  ({ className, variant, bg, hover, p, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(cardVariants({ variant, hover, p, className }))}
+      className={cn(cardVariants({ variant, bg, hover, p, className }))}
       {...props}
     />
   )

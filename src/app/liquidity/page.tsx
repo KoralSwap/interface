@@ -54,7 +54,7 @@ export default function Page() {
                     </span>{" "}
                     currently listed
                   </p>
-                  <Link href="/liquidity/add-liquidity?token0=0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE&token1=0x34D9a3E8B5Df4DEdB388EB14b7416f76BFFf4E6f&version=volatile">
+                  <Link href="/liquidity/deposit">
                     <Button
                       variant="secondary"
                       className="w-full border-white/20 bg-white/10 text-white hover:bg-white/20 sm:w-auto"

@@ -33,7 +33,7 @@ export default function DynamicInputBox({ label }: { label: string }) {
         {address && (
           <Link
             target="_blank"
-            href={`https://testnet.monadexplorer.com/address/${address}`}
+            href={`https://konetexplorer.io/address/${address}`}
           >
             <button
               onClick={copyToClipboard}

@@ -137,17 +137,16 @@ export default function SettingsDialog({
           </div>
           <div className="space-y-2">
             <h3 className="text-sm">Transaction Deadline</h3>
-            <div className="bg-neutral-950 px-2 items-center flex justify-end border-neutral-900 border  rounded-md">
+            <div className="bg-neutral-1000 px-2 items-center flex justify-end border-neutral-900 border  rounded-md">
               <Input
                 min={1}
                 max={400}
                 type="number"
                 onFocus={() => updateState({ deadlineFocus: true })}
                 onBlur={() => updateState({ deadlineFocus: false })}
-                className="w-full"
+                className="w-full !bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                 dir="rtl"
-                variant="transparent"
-                ring="none"
+                variant="ghost"
                 onChange={(e) => {
                   if (!inputPatternNumberMatch(e.target.value)) return;
                   updateDeadline(Number(e.target.value));
@@ -157,13 +156,6 @@ export default function SettingsDialog({
               <span className="text-neutral-200">minutes</span>
             </div>
           </div>
-          <Button
-            onClick={() => setDialogOpen(false)}
-            variant={"primary"}
-            size="submit"
-          >
-            Close
-          </Button>
         </div>
       </DialogContent>
     </Dialog>

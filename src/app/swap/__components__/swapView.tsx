@@ -2,11 +2,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import TokensDialog from "@/components/shared/tokensDialog";
 import { useChainId } from "wagmi";
-import { useV2Swap, useV3Swap } from "../__hooks__/useSwap";
-import { useV2QuoteSwap, useV3QuoteSwap } from "../__hooks__/useQuoteSwap";
+import { useV2Swap } from "../__hooks__/useSwap";
+import { useV2QuoteSwap } from "../__hooks__/useQuoteSwap";
 import { TToken } from "@/lib/types";
-import { CL_SWAP_ROUTER, STRINGS, V2_ROUTER } from "@/data/constants";
-import { Address, formatUnits, parseUnits, zeroAddress } from "viem";
+import { STRINGS, V2_ROUTER } from "@/data/constants";
+import { formatUnits, parseUnits, zeroAddress } from "viem";
 import { useTransactionToastProvider } from "@/contexts/transactionToastProvider";
 import { ArrowDown } from "lucide-react";
 import SwapCard from "./swapCard";
@@ -17,7 +17,6 @@ import useCheckAllowance from "@/lib/hooks/useCheckAllowance";
 import useGrantApproval from "@/lib/hooks/useGrantApproval";
 import { useGetBalance } from "@/lib/hooks/useGetBalance";
 import { useV2CheckPair } from "@/lib/hooks/useCheckPair";
-import usePoolQueries from "@/lib/hooks/envio/usePoolQueries";
 
 export default function SwapView() {
   // Wagmi parameters
@@ -42,28 +41,7 @@ export default function SwapView() {
     [amountIn, token0]
   );
 
-  const { useQLGetCLPByReserveDESC } = usePoolQueries();
-  // Find CL pools using descending order
-  const { data: QLCLP } = useQLGetCLPByReserveDESC(1000, 30000);
-  // Find CL pools that match selected tokens, and then select the best
-  const bestCLPool = useMemo(() => {
-    if (!QLCLP || !token0 || !token1) return undefined;
-    const tokens = [
-      convertETHToWETHIfApplicable(token0.address, chainId).toLowerCase(),
-      convertETHToWETHIfApplicable(token1.address, chainId).toLowerCase(),
-    ];
-    // Filter
-    const matchingPools = QLCLP.Pool.filter(
-      (pool) =>
-        tokens.includes(pool.token0!.address.toLowerCase()) &&
-        tokens.includes(pool.token1!.address.toLowerCase())
-    );
-    return matchingPools
-      .sort((a, b) => parseFloat(b.reserveUSD) - parseFloat(a.reserveUSD))
-      .at(0);
-  }, [QLCLP, token0, token1, chainId]);
-
-  // Quote
+  // V2 Quote
   const {
     isStable,
     amountOut: v2QuoteAmountOut,
@@ -80,35 +58,17 @@ export default function SwapView() {
     amountIn: amountInParsed,
     refetchInterval: 10000,
   });
-  const { amountOut: v3QuoteAmountOut, routesAvailable: v3RoutesAvailable } =
-    useV3QuoteSwap({
-      token0: convertETHToWETHIfApplicable(
-        token0?.address ?? zeroAddress,
-        chainId
-      ),
-      token1: convertETHToWETHIfApplicable(
-        token1?.address ?? zeroAddress,
-        chainId
-      ),
-      amountIn: amountInParsed,
-      refetchInterval: 30000,
-      tickSpacing: Number(bestCLPool?.tickSpacing || "1"),
-      sqrtPriceLimitX96: 0n,
-    });
 
-  const isV2 = useMemo(
-    () => v2QuoteAmountOut > v3QuoteAmountOut,
-    [v2QuoteAmountOut, v3QuoteAmountOut]
-  );
   // Check pair
   const { exists: v2PairExists, pairAddress: v2Pair } = useV2CheckPair(
     token0?.address ?? zeroAddress,
     token1?.address ?? zeroAddress,
     isStable
   );
+
   // Router by chain ID
   const v2Router = useMemo(() => V2_ROUTER[chainId], [chainId]);
-  const v3Router = useMemo(() => CL_SWAP_ROUTER[chainId], [chainId]);
+
   const { isAllowed: v2RouterAllowed, refresh: refreshV2Allowance } =
     useCheckAllowance(
       token0?.address ?? zeroAddress,
@@ -117,22 +77,13 @@ export default function SwapView() {
       10000
     );
 
-  const { isAllowed: v3RouterAllowed, refresh: refreshV3Allowance } =
-    useCheckAllowance(
-      token0?.address ?? zeroAddress,
-      v3Router,
-      amountInParsed,
-      10000
-    );
-
   const amountOutFormatted = useMemo(
-    () =>
-      isV2
-        ? formatUnits(v2QuoteAmountOut, token1?.decimals ?? 18)
-        : formatUnits(v3QuoteAmountOut, token1?.decimals ?? 18),
-    [isV2, v2QuoteAmountOut, token1?.decimals, v3QuoteAmountOut]
+    () => formatUnits(v2QuoteAmountOut, token1?.decimals ?? 18),
+    [v2QuoteAmountOut, token1?.decimals]
   );
+
   const { setToast } = useTransactionToastProvider();
+
   // Grant approval
   const {
     execute: executeGrantV2Approval,
@@ -162,33 +113,6 @@ export default function SwapView() {
       }),
   });
 
-  const {
-    execute: executeGrantV3Approval,
-    isPending: v3ApprovalPending,
-    reset: resetV3Approval,
-    isError: v3ApprovalErrored,
-    isSuccess: v3ApprovalSuccessful,
-  } = useGrantApproval({
-    token: token0?.address,
-    spender: v3Router,
-    amount: amountInParsed,
-    onSuccess: (hash) => {
-      setToast({
-        actionTitle: "Approved " + token0?.symbol,
-        toastType: "success",
-        actionDescription: "You gave approval to spend tokens",
-        hash,
-      });
-
-      void refreshV3Allowance();
-    },
-    onError: (err) =>
-      setToast({
-        toastType: "error",
-        actionTitle: "Transaction failed: " + err.cause,
-        actionDescription: "",
-      }),
-  });
   // Swap
   const {
     execute: executeV2Swap,
@@ -219,36 +143,6 @@ export default function SwapView() {
         actionDescription: "",
       }),
   });
-  const {
-    execute: executeV3Swap,
-    isPending: v3SwapPending,
-    reset: resetV3Swap,
-    isError: v3SwapErrored,
-    isSuccess: v3SwapSuccessful,
-  } = useV3Swap({
-    token0: token0?.address ?? zeroAddress,
-    token1: token1?.address ?? zeroAddress,
-    amountIn: amountInParsed,
-    anticipatedAmountOut: v3QuoteAmountOut,
-    tickSpacing: Number(bestCLPool?.tickSpacing || "1"),
-    sqrtPriceLimitX96: 0n,
-    onSuccess: (hash) => {
-      setToast({
-        actionTitle: "Swapped successfully",
-        toastType: "success",
-        actionDescription: "Swap was successful",
-        hash,
-      });
-
-      void refreshV3Allowance();
-    },
-    onError: (err) =>
-      setToast({
-        toastType: "error",
-        actionTitle: "Transaction failed: " + err.cause,
-        actionDescription: "",
-      }),
-  });
 
   const switchTokens = useCallback(() => {
     const t0 = token0;
@@ -259,61 +153,31 @@ export default function SwapView() {
   }, [token0, token1]);
 
   const onSubmit = useCallback(() => {
-    if (!v2RouterAllowed && isV2) {
+    if (!v2RouterAllowed) {
       resetV2Approval();
       executeGrantV2Approval();
       return;
     }
 
-    if (!v3RouterAllowed && !isV2) {
-      resetV3Approval();
-      executeGrantV3Approval();
-      return;
-    }
-
-    if (isV2) executeV2Swap();
-    else executeV3Swap();
-  }, [
-    v2RouterAllowed,
-    v3RouterAllowed,
-    resetV2Approval,
-    resetV3Approval,
-    executeGrantV2Approval,
-    executeGrantV3Approval,
-    executeV2Swap,
-    executeV3Swap,
-    isV2,
-  ]);
+    executeV2Swap();
+  }, [v2RouterAllowed, resetV2Approval, executeGrantV2Approval, executeV2Swap]);
 
   const { balance: balance0, refresh: refreshBalance0 } = useGetBalance(
     token0?.address,
     15000
   );
-  // const { balance: balance1, refresh: refreshBalance1 } = useGetBalance(
-  //   token1?.address,
-  //   15000
-  // );
 
   const buttonState = useMemo(() => {
-    if (
-      v2ApprovalPending ||
-      v2SwapPending ||
-      v3ApprovalPending ||
-      v3SwapPending
-    )
-      return ButtonState.Loading;
+    if (v2ApprovalPending || v2SwapPending) return ButtonState.Loading;
     else return ButtonState.Default;
-  }, [v2ApprovalPending, v3ApprovalPending, v2SwapPending, v3SwapPending]);
+  }, [v2ApprovalPending, v2SwapPending]);
 
   const stateValid = useMemo(
     () =>
       !!token0 &&
       !!token1 &&
-      (v2RoutesAvailable ||
-        v2PairExists ||
-        v3RoutesAvailable ||
-        !!bestCLPool) &&
-      (v2RouterAllowed || v3RouterAllowed
+      (v2RoutesAvailable || v2PairExists) &&
+      (v2RouterAllowed
         ? balance0 >= amountInParsed &&
           amountInParsed > 0n &&
           !isNaN(Number(amountIn))
@@ -327,21 +191,12 @@ export default function SwapView() {
       amountIn,
       v2RoutesAvailable,
       v2PairExists,
-      v3RoutesAvailable,
-      bestCLPool,
-      v3RouterAllowed,
     ]
   );
 
   const errorMessage = useMemo(() => {
     if (!token0 || !token1) return STRINGS.UNSELECTED_TOKENS;
-    if (
-      !v2RoutesAvailable &&
-      !v2PairExists &&
-      !bestCLPool &&
-      !v3RoutesAvailable
-    )
-      return STRINGS.SWAP_PATH_NOT_FOUND;
+    if (!v2RoutesAvailable && !v2PairExists) return STRINGS.SWAP_PATH_NOT_FOUND;
     if (balance0 < amountInParsed) return STRINGS.INSUFFICIENT_BALANCE;
   }, [
     balance0,
@@ -350,50 +205,17 @@ export default function SwapView() {
     token1,
     v2RoutesAvailable,
     v2PairExists,
-    bestCLPool,
-    v3RoutesAvailable,
   ]);
 
   useEffect(() => {
-    if (bestCLPool) console.table(bestCLPool);
-    console.log(
-      isV2,
-      v2RouterAllowed,
-      v3RouterAllowed,
-      v2QuoteAmountOut,
-      v3QuoteAmountOut
-    );
-  }, [
-    bestCLPool,
-    isV2,
-    v2QuoteAmountOut,
-    v2RouterAllowed,
-    v3QuoteAmountOut,
-    v3RouterAllowed,
-  ]);
-
-  useEffect(() => {
-    if (
-      v2SwapSuccessful ||
-      v2SwapErrored ||
-      v3SwapSuccessful ||
-      v3SwapErrored
-    ) {
-      if (isV2) resetV2Swap();
-      else resetV3Swap();
-
+    if (v2SwapSuccessful || v2SwapErrored) {
+      resetV2Swap();
       void refreshBalance0();
       return;
     }
 
-    if (
-      v2ApprovalErrored ||
-      v2ApprovalSuccessful ||
-      v3ApprovalSuccessful ||
-      v3ApprovalErrored
-    ) {
-      if (isV2) resetV2Approval();
-      else resetV3Approval();
+    if (v2ApprovalErrored || v2ApprovalSuccessful) {
+      resetV2Approval();
     }
   }, [
     v2SwapSuccessful,
@@ -403,17 +225,10 @@ export default function SwapView() {
     refreshBalance0,
     v2ApprovalSuccessful,
     v2ApprovalErrored,
-    v3SwapSuccessful,
-    v3SwapErrored,
-    resetV3Swap,
-    v3ApprovalSuccessful,
-    v3ApprovalErrored,
-    isV2,
-    resetV3Approval,
   ]);
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-4 p-6">
       <TokensDialog
         open={firstDialogOpen}
         onOpen={setFirstDialogOpen}
@@ -432,10 +247,10 @@ export default function SwapView() {
           token1?.address ?? zeroAddress,
         ]}
       />
-      <div className="space-y-1 relative">
+      <div className="relative space-y-2">
         <SwapCard
           active={activePane === 0}
-          title="Sell"
+          title="You Pay"
           value={String(amountIn)}
           onContainerClick={() => setActivePane(0)}
           token={token0}
@@ -444,31 +259,33 @@ export default function SwapView() {
         />
         <SwapCard
           active={activePane === 1}
-          title="Buy"
+          title="You Receive"
           token={token1}
           value={amountOutFormatted}
           onContainerClick={() => setActivePane(1)}
           onButtonClick={() => setSecondDialogOpen(true)}
           disabled
         />
-        <button
-          onClick={switchTokens}
-          className="h-14 flex items-center justify-center rounded-full w-14 bg-black absolute left-1/2 top-1/2 -translate-y-[calc(50%+4px)] -translate-x-1/2"
-        >
-          <div className="h-12 w-12 rounded-full bg-neutral-1000 flex items-center justify-center">
-            <ArrowDown className="text-neutral-300" size={18} />
-          </div>
-        </button>
+        {/* Switch Button */}
+        <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
+          <button
+            onClick={switchTokens}
+            className="group flex h-12 w-12 items-center justify-center rounded-xl border-4 border-background bg-neutral-1000 transition-all duration-200 hover:scale-110 hover:border-blue-500/50 hover:bg-neutral-950 active:scale-95"
+          >
+            <ArrowDown
+              className="text-neutral-400 transition-all group-hover:text-blue-400 group-hover:rotate-180"
+              size={20}
+            />
+          </button>
+        </div>
       </div>
       {token1 && token0 && Number(amountIn) > 0 && (
         <SwapDetails
           token0={token0}
           token1={token1}
           amountIn={parseUnits(amountIn, token0.decimals ?? 18)}
-          amountOut={isV2 ? v2QuoteAmountOut : v3QuoteAmountOut}
-          pair={
-            isV2 ? v2Pair : ((bestCLPool?.address || zeroAddress) as Address)
-          }
+          amountOut={v2QuoteAmountOut}
+          pair={v2Pair}
         />
       )}
       <SubmitButton
@@ -477,9 +294,7 @@ export default function SwapView() {
         state={buttonState}
         isValid={stateValid}
       >
-        {(isV2 ? !v2RouterAllowed : !v3RouterAllowed)
-          ? "Approve " + token0?.symbol
-          : "Swap"}
+        {!v2RouterAllowed ? "Approve " + token0?.symbol : "Swap"}
       </SubmitButton>
     </div>
   );

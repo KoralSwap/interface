@@ -7,34 +7,18 @@ import SettingsDialog from "./__components__/settingsDialog";
 export default function SwapPage() {
   return (
     <PageMarginContainer>
-      <div className="mx-auto w-[440px]">
+      <div className="mx-auto w-full max-w-[440px] px-4 sm:px-0">
         <div className="py-4">
           <div className="py-2 flex items-end justify-between">
-            <h1 className="text-primary-400 text-[44px] leading-[44px]">
+            <h1 className="text-primary-400 text-3xl sm:text-[44px] leading-tight sm:leading-[44px]">
               Trade
             </h1>
             <div>
               <SettingsDialog />
             </div>
           </div>
-          <div className="pt-2 hidden">
-            <Tabs defaultValue="swap">
-              <TabsList size="md" colors="muted" display={"grow"}>
-                <TabsTrigger display={"grow"} value="swap">
-                  Swap
-                </TabsTrigger>
-                <TabsTrigger display={"grow"} value="twap">
-                  TWAP
-                </TabsTrigger>
-                <TabsTrigger display={"grow"} value="limit">
-                  Limit
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
         </div>
-        <Card className="min-w-[380px] p-0 rounded-md">
-          {/* <SwapView /> */}
+        <Card className="w-full p-0 rounded-md">
           <SwapView />
         </Card>
       </div>

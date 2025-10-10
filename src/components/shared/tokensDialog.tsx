@@ -1,9 +1,5 @@
-import Image from "next/image";
 import React, { useEffect, useMemo } from "react";
-import verified from "@/assets/verified.svg";
-import info from "@/assets/info.svg";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Switch } from "@/components/ui/switch";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import SearchInput from "@/components/shared/searchInput";
 import ImageWithFallback from "@/components/shared/imageWithFallback";
@@ -92,18 +88,20 @@ export default function TokensDialog({
     <Dialog open={open} onOpenChange={onOpen}>
       <DialogContent
         title="Search Tokens"
-        className="md:w-[440px] mx-0 md:mx-[4px] w-[98vw] overflow-hidden border-none bg-neutral-1000  p-0 text-white"
+        className="md:w-[440px] mx-0 md:mx-[4px] w-[98vw] overflow-hidden border border-neutral-900 bg-neutral-1050 p-0 text-white"
       >
-        <div className="relative  h-[80vh] space-y-6 pt-4 text-white">
-          <div className="space-y-6 px-6">
-            <DialogTitle className="">Select a token</DialogTitle>
+        <div className="relative h-[80vh] text-white">
+          <div className="space-y-4 p-6 border-b border-neutral-900">
+            <DialogTitle className="text-xl font-bold">
+              Select a token
+            </DialogTitle>
             <SearchInput setValue={setSearchQuery} value={searchQuery} />
           </div>
-          <div className="relative z-0 h-[calc(100%-179px)] border-t border-gray-600  ">
-            <h2 className="py-3 text-[14px] text-[#999999] pl-6">
+          <div className="relative z-0 h-[calc(100%-120px)]">
+            <h2 className="px-6 py-3 text-sm font-medium text-neutral-400">
               Tokens ({filteredListEdited.length})
             </h2>
-            <div className=" h-[calc(100%-22px)] space-y-2 scrollbar overflow-y-auto pb-2 px-2">
+            <div className="h-[calc(100%-48px)] space-y-1 scrollbar overflow-y-auto pb-2 px-4">
               {filteredListEdited.map((token) => {
                 return (
                   <TokenItem
@@ -116,19 +114,6 @@ export default function TokensDialog({
                   />
                 );
               })}
-            </div>
-          </div>
-
-          <div className="z-10  rounded-bl-md  border-t border-gray-600  bg-[#1a1a1a] px-10 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-x-2">
-                <Image src={verified} alt="verified icon" />
-                <span className="font-geistMono text-[12px] md:text-sm text-gray-300">
-                  Only show verified tokens
-                </span>
-                <Image src={info} alt="info" />
-              </div>
-              <Switch id="airplane-mode" />
             </div>
           </div>
         </div>
@@ -160,9 +145,9 @@ function TokenItem({
         }
         selectToken(token);
       }}
-      className="mb-2 hover:bg-neutral-900 transition-colors flex w-full text-left justify-between rounded-md bg-neutral-950 px-4 py-2"
+      className="flex w-full items-center justify-between rounded-lg border border-transparent bg-neutral-1000 px-4 py-3 text-left transition-all duration-200 hover:border-blue-500/50 hover:bg-neutral-950 cursor-pointer"
     >
-      <div className="flex items-center gap-x-2">
+      <div className="flex items-center gap-x-3">
         <ImageWithFallback
           className="h-10 w-10 rounded-full"
           src={token.logoURI}
@@ -174,34 +159,16 @@ function TokenItem({
           alt={token.symbol}
         />
         <div>
-          <div>
-            <span>{token.symbol}</span>
-          </div>
-          <div>
-            <span className="text-gray-400 text-sm">{token.name}</span>
-          </div>
+          <div className="font-medium text-white">{token.symbol}</div>
+          <div className="text-sm text-neutral-400">{token.name}</div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center font-geistMono">
-        {/* <div> */}
-        {/*   <span>{formatNumber(formatUnits(0n, token.decimals))}</span> */}
-        {/* </div> */}
-        <div className="flex items-center">
-          {token.import && (
-            <Button role="banner" variant={"primary"} size={"sm"}>
-              Import
-            </Button>
-          )}
-        </div>
-        <div>
-          {/* {quoteLoading ? ( */}
-          {/*   <Spinner /> */}
-          {/* ) : ( */}
-          {/*   <span className="text-gray-400"> */}
-          {/*     ${formatNumber(formatEther(quote[0]))} */}
-          {/*   </span> */}
-          {/* )} */}
-        </div>
+      <div className="flex items-center justify-center">
+        {token.import && (
+          <Button role="banner" variant="primary" size="xs">
+            Import
+          </Button>
+        )}
       </div>
     </div>
   );

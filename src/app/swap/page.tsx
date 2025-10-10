@@ -1,42 +1,34 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import SwapView from "./__components__/swapView";
 import PageMarginContainer from "@/components/ui/pageMarginContainer";
 import SettingsDialog from "./__components__/settingsDialog";
-import Annoucement from "@/components/layout/annoucement";
+import { ArrowDownUp } from "lucide-react";
 
 export default function Swap() {
   return (
     <PageMarginContainer>
-      <Annoucement />
-      <div className="mx-auto md:w-[440px]">
-        <div className="py-4">
-          <div className="py-2 flex items-end justify-between">
-            <h1 className="text-primary-400 md:text-[44px] text-2xl leading-[44px]">
-              Trade
-            </h1>
-            <div>
-              <SettingsDialog />
+      <div className="mx-auto max-w-[480px] py-8">
+        <div className="mb-10">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-primary shadow-lg shadow-blue-500/30">
+                <ArrowDownUp size={24} />
+              </div>
+              <h1 className="text-4xl font-bold text-gradient">Swap</h1>
             </div>
+            <SettingsDialog />
           </div>
-          <div className="pt-2 hidden">
-            <Tabs defaultValue="swap">
-              <TabsList size="md" colors="muted" display={"grow"}>
-                <TabsTrigger display={"grow"} value="swap">
-                  Swap
-                </TabsTrigger>
-                <TabsTrigger display={"grow"} value="twap">
-                  TWAP
-                </TabsTrigger>
-                <TabsTrigger display={"grow"} value="limit">
-                  Limit
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
+          <p className="mt-4 text-sm text-neutral-400">
+            Trade tokens instantly at the best rates
+          </p>
         </div>
-        <Card className="md:min-w-[380px] p-0 rounded-md">
-          {/* <SwapView /> */}
+
+        <Card
+          variant="elevated"
+          hover="glow"
+          p="none"
+          className="overflow-hidden"
+        >
           <SwapView />
         </Card>
       </div>

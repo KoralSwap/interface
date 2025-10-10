@@ -1,9 +1,11 @@
 "use client";
+
 import React, { useMemo } from "react";
 import { useAccount } from "wagmi";
 import { Button, ButtonProps } from "../ui/button";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import Spinner from "../ui/spinner";
+import { Loader2 } from "lucide-react";
 
 export enum ButtonState {
   Signing = "SIGNING",
@@ -14,6 +16,7 @@ export enum ButtonState {
   Wrap = "WRAP",
   Default = "DEFAULT",
 }
+
 interface Props extends ButtonProps {
   state: ButtonState;
   isValid: boolean;
@@ -29,16 +32,17 @@ export default function SubmitButton({
 }: Props) {
   const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
+
   const buttonText = useMemo(() => {
     switch (state) {
       case ButtonState.Signing:
-        return "Waiting for Signature...";
+        return "Awaiting Signature...";
       case ButtonState.Loading:
-        return "Loading...";
+        return "Processing...";
       case ButtonState.Sending:
-        return "Transaction Pending";
+        return "Confirming Transaction...";
       case ButtonState.Fetching:
-        return "Loading Data...";
+        return "Loading...";
       default:
         return props.children;
     }
@@ -52,14 +56,22 @@ export default function SubmitButton({
     [state]
   );
 
-  return !isConnected ? (
-    <Button onClick={openConnectModal} variant="primary" size="submit">
-      Connect Wallet
-    </Button>
-  ) : (
+  if (!isConnected) {
+    return (
+      <Button
+        onClick={openConnectModal}
+        variant="primary"
+        size="lg"
+        className="w-full text-base font-semibold"
+      >
+        Connect Wallet
+      </Button>
+    );
+  }
+
+  return (
     <Button
       {...props}
-      data-pending={isLoading || !isValid ? "true" : "false"}
       disabled={
         isLoading ||
         !isValid ||
@@ -67,12 +79,20 @@ export default function SubmitButton({
         (validationError !== null && typeof validationError !== "undefined")
       }
       variant="primary"
-      size="submit"
+      size="lg"
+      className={`
+        w-full text-base font-semibold
+        ${isLoading ? "cursor-wait" : ""}
+        ${!isValid || validationError ? "opacity-60" : ""}
+      `}
     >
-      <div className="flex gap-x-4 justify-center items-center">
+      <div className="flex items-center justify-center gap-3">
         {(state === ButtonState.Fetching ||
           state === ButtonState.Loading ||
-          state === ButtonState.Sending) && <Spinner />}
+          state === ButtonState.Sending ||
+          state === ButtonState.Signing) && (
+          <Loader2 className="h-5 w-5 animate-spin" />
+        )}
         <span>
           {!validationError || isLoading ? buttonText : validationError}
         </span>

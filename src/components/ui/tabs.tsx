@@ -9,7 +9,7 @@ import { cva, VariantProps } from "class-variance-authority";
 const Tabs = TabsPrimitive.Root;
 // Define the `cva` function for styling variants
 const tabsListVariants = cva(
-  "items-center justify-center flex bg-transparent rounded-md text-muted-foreground", // Base styles
+  "items-center justify-center flex bg-transparent rounded-lg text-muted-foreground p-1", // Base styles
   {
     variants: {
       gap: {
@@ -21,11 +21,11 @@ const tabsListVariants = cva(
       },
       border: {
         none: "",
-        "border-1": "border border-[#43444C]",
+        "border-1": "border border-neutral-800",
       },
       colors: {
         transparent: "",
-        muted: "bg-neutral-1000",
+        muted: "bg-neutral-1000/50 border border-neutral-900",
       },
       display: {
         grow: "flex",
@@ -72,11 +72,9 @@ const TabsList = React.forwardRef<
 TabsList.displayName = TabsPrimitive.List.displayName;
 
 const tabsTriggerVariants = cva(
-  `inline-flex items-center  justify-center whitespace-nowrap rounded-sm px-2 md:px-3
-    py-1.5 text-sm font-medium ring-offset-background transition-all
-    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
-    focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-     data-[state=active]:shadow-sm`,
+  `inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 md:px-6
+    py-2 text-sm font-semibold ring-offset-background transition-all duration-200
+    focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50`,
   {
     variants: {
       display: {
@@ -85,13 +83,14 @@ const tabsTriggerVariants = cva(
       },
       colors: {
         primary:
-          "data-[state=active]:bg-neutral-950 data-[state=active]:text-white text-neutral-400",
-        white: "data-[state=active]:text-white text-neutral-400",
+          "data-[state=active]:bg-gradient-primary data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-blue-500/20 text-neutral-500 hover:text-neutral-300 hover:bg-neutral-950/50",
+        white:
+          "data-[state=active]:text-white data-[state=active]:bg-neutral-950 text-neutral-500 hover:text-neutral-300",
       },
       border: {
         none: "",
         "primary-1":
-          "border-b rounded-none border-neutral-900 data-[state=active]:border-primary-400",
+          "border-b rounded-none border-neutral-900 data-[state=active]:border-blue-500",
       },
     },
     defaultVariants: {

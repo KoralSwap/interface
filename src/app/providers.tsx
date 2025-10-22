@@ -29,6 +29,7 @@ import {
   talismanWallet,
   okxWallet,
   foxWallet,
+  bitgetWallet
 } from "@rainbow-me/rainbowkit/wallets";
 
 const connectors = connectorsForWallets(
@@ -36,8 +37,9 @@ const connectors = connectorsForWallets(
     {
       groupName: "Recommended",
       wallets: [
-        phantomWallet,
         metaMaskWallet,
+        bitgetWallet,
+        phantomWallet,
         trustWallet,
         okxWallet,
         walletConnectWallet,

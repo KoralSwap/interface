@@ -39,7 +39,7 @@ const SearchParamsSchema = z.object({
 export default function AddLiquidityV2() {
   // Wagmi parameters
   const chainId = useChainId();
-  const [selectedInput, setSelectedInput] = useState<"0" | "1">("0");
+  const [, setSelectedInput] = useState<"0" | "1">("0");
   // Token list
   // Search params
   const params = useSearchParams();
@@ -310,15 +310,41 @@ export default function AddLiquidityV2() {
   const { useGetPoolData } = useKoralSwapAPI();
   const { poolData, refetch: refetchPoolData } = useGetPoolData(pair, 10000);
 
+  const handleInput0Change = useCallback(
+    (value: string) => {
+      setAmount0(value);
+      if (version === "stable") {
+        setAmount1(value);
+      } else {
+        if (amount1Needed > 0n)
+          setAmount1(formatUnits(amount1Needed, asset1?.decimals ?? 18));
+      }
+    },
+    [amount1Needed, asset1?.decimals, version]
+  );
+
+  const handleInput1Change = useCallback(
+    (value: string) => {
+      setAmount1(value);
+      if (version === "stable") {
+        setAmount0(value);
+      } else {
+        if (amount0Needed > 0n)
+          setAmount0(formatUnits(amount0Needed, asset0?.decimals ?? 18));
+      }
+    },
+    [amount0Needed, asset0?.decimals, version]
+  );
+
   // logic to set quote amounts to inputs
-  useEffect(() => {
-    if (!pairExists) return;
-    if (selectedInput === "0" && pairExists && amount1Needed > 0n) {
-      setAmount1(formatUnits(amount1Needed, asset1?.decimals ?? 18));
-    } else if (selectedInput === "1" && pairExists && amount0Needed > 0n) {
-      setAmount0(formatUnits(amount0Needed, asset0?.decimals ?? 18));
-    }
-  }, [pairExists, selectedInput, amount0Needed, amount1Needed, asset0, asset1]);
+  // useEffect(() => {
+  //   if (!pairExists) return;
+  //   if (selectedInput === "0" && pairExists && amount1Needed > 0n) {
+  //     setAmount1(formatUnits(amount1Needed, asset1?.decimals ?? 18));
+  //   } else if (selectedInput === "1" && pairExists && amount0Needed > 0n) {
+  //     setAmount0(formatUnits(amount0Needed, asset0?.decimals ?? 18));
+  //   }
+  // }, [pairExists, selectedInput, amount0Needed, amount1Needed, asset0, asset1]);
 
   useEffect(() => {
     if (!asset0 || !asset1) routerNav.push("/");
@@ -365,7 +391,7 @@ export default function AddLiquidityV2() {
           </div>
           <AssetCard
             balance={balance0}
-            onValueChange={setAmount0}
+            onValueChange={handleInput0Change}
             token={token0}
             value={amount0}
             onFocus={() => setSelectedInput("0")}
@@ -379,7 +405,7 @@ export default function AddLiquidityV2() {
           </div>
           <AssetCard
             balance={balance1}
-            onValueChange={setAmount1}
+            onValueChange={handleInput1Change}
             token={token1}
             value={amount1}
             onFocus={() => setSelectedInput("1")}

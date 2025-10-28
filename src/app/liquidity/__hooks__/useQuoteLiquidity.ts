@@ -41,7 +41,7 @@ export function useV2QuoteAddLiquidity(
     address: router,
     functionName: "quoteAddLiquidity",
     args: [token0, token1, stable, factory, amount0Desired, amount1Desired],
-    query: { enabled: true, refetchInterval },
+    query: { enabled: !stable, refetchInterval },
   });
 
   return {

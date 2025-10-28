@@ -29,7 +29,7 @@ import {
   talismanWallet,
   okxWallet,
   foxWallet,
-  bitgetWallet
+  bitgetWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 
 const connectors = connectorsForWallets(
